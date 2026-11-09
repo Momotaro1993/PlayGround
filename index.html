@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f1ed"><link rel="icon" href="data:,"><title>Hoshizora — A Little Life</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--ink:#302d37;--muted:#87818c;--paper:#f8f5f2;--white:#fffdfb;--rose:#e7a4a4;--rose-dark:#bd747a;--lilac:#bcb0d8;--line:#eee8e4;--gold:#e4bb75;--green:#99b9a2;--shadow:0 12px 35px #4936380d}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px 'DM Sans',sans-serif;min-height:100vh}button{font:inherit;color:inherit;cursor:pointer} .app{max-width:1512px;min-height:100vh;margin:auto;display:grid;grid-template-columns:222px minmax(0,1fr);background:var(--paper)}
+aside{border-right:1px solid var(--line);padding:30px 19px 24px;display:flex;flex-direction:column;position:relative;background:#faf8f6}.brand{display:flex;align-items:center;gap:11px;padding:0 10px 34px}.brand-mark{width:37px;height:37px;border-radius:13px;background:linear-gradient(145deg,#f3c4b8,#dc999d);display:grid;place-items:center;color:white;font-size:20px;box-shadow:0 5px 14px #dfaaa455}.brand-name{font:600 19px 'Playfair Display',serif;letter-spacing:.1px}.brand-sub{font-size:9px;color:#a49aa0;letter-spacing:1.55px;text-transform:uppercase;margin-top:3px}.side-label{font-size:9px;letter-spacing:1.65px;color:#b4abb0;font-weight:700;padding:0 12px;margin:0 0 11px}.nav{display:grid;gap:5px}.nav-item{border:0;background:transparent;padding:11px 12px;border-radius:11px;display:flex;align-items:center;gap:12px;text-align:left;color:#817a84;font-size:12px}.nav-item .ico{font-size:16px;width:18px;text-align:center}.nav-item.active{color:#985e67;background:#f2e5e3;font-weight:600}.season-card{margin-top:auto;border-radius:17px;padding:16px;background:linear-gradient(150deg,#f3e7e4,#eee9f2);position:relative;overflow:hidden}.season-card:after{content:'✦';position:absolute;right:13px;top:7px;color:#e3a9a7;font-size:28px}.season-small{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:#9c858e}.season-title{font:600 19px 'Playfair Display',serif;margin:8px 0 5px}.season-date{font-size:10px;color:#92858c}.week-dots{display:flex;gap:6px;margin-top:13px}.week-dots i{width:7px;height:7px;border-radius:50%;background:#dfc4c0}.week-dots i.done{background:#b7787b}.side-bottom{font-size:10px;color:#b0a7ac;padding:19px 10px 0}.main{min-width:0;padding:24px 32px 32px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:21px}.crumb{font-size:11px;color:#a29aa0;letter-spacing:.4px}.crumb b{color:#59525d;font-weight:600}.top-actions{display:flex;align-items:center;gap:10px}.round-btn{width:36px;height:36px;border:1px solid var(--line);background:#fffdfa;border-radius:50%;display:grid;place-items:center;color:#8e858c;position:relative}.round-btn .dot{position:absolute;width:6px;height:6px;background:#d88f91;border-radius:50%;right:6px;top:6px;border:1px solid white}.profile{display:flex;align-items:center;gap:9px;margin-left:5px}.profile-avatar{width:33px;height:33px;border-radius:50%;background:linear-gradient(145deg,#f1cbbd,#c795a5);display:grid;place-items:center;font-size:18px}.profile-name{font-size:11px;font-weight:600}.profile-sub{font-size:9px;color:#a39aa0;margin-top:2px}.content{display:grid;grid-template-columns:minmax(430px,1.67fr) minmax(300px,.93fr);gap:22px;align-items:start}.left-col,.right-col{min-width:0}.welcome{display:flex;align-items:flex-end;justify-content:space-between;margin:1px 2px 14px}.eyebrow{font-size:9px;letter-spacing:1.7px;color:#bd8186;text-transform:uppercase;font-weight:700}.welcome h1{font:600 29px 'Playfair Display',serif;margin:5px 0 4px;letter-spacing:-.4px}.welcome p{font-size:11px;color:#99919a;margin:0}.date-pill{background:#fffdfb;border:1px solid var(--line);border-radius:20px;padding:8px 12px;font-size:10px;color:#877e87;white-space:nowrap;margin-bottom:2px}.scene-card{height:344px;position:relative;background:#e5e4eb;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}canvas{display:block;width:100%;height:100%}.scene-top{position:absolute;left:15px;top:14px;display:flex;gap:7px;pointer-events:none}.tag{padding:7px 10px;border-radius:20px;background:#fffdf2d9;color:#746e79;font-size:9px;backdrop-filter:blur(8px);box-shadow:0 3px 12px #3934440b}.tag span{color:#ce898c;margin-right:5px}.scene-bottom{position:absolute;bottom:13px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.scene-caption{padding:9px 12px;background:#fffdf1df;border-radius:11px;backdrop-filter:blur(7px);font-size:10px;color:#6d6671}.scene-caption b{font-weight:600;color:#544e59}.scene-controls{display:flex;gap:5px;pointer-events:auto}.scene-controls button{border:0;background:#fffdf1df;border-radius:50%;width:29px;height:29px;color:#756e77}.scene-controls button:hover{background:white;transform:translateY(-1px)}.quote-card{margin-top:13px;padding:13px 15px;border:1px solid #eee8e4;background:#fffdfa;border-radius:13px;display:flex;gap:11px;align-items:flex-start}.quote-icon{font-size:16px;color:#d9a09d}.quote-text{font:italic 12px 'Playfair Display',serif;color:#77717a;line-height:1.55}.quote-text b{font-style:normal;font:600 9px 'DM Sans',sans-serif;color:#b28387;display:block;margin-top:5px;letter-spacing:.5px}.right-col{padding-top:2px}.right-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.right-heading h2{font:600 20px 'Playfair Display',serif;margin:0}.turn-label{font-size:9px;color:#a69da4;background:#f0ebe8;padding:6px 9px;border-radius:15px}.stat-card{padding:14px 15px 13px;background:#fffdfa;border:1px solid var(--line);border-radius:14px;margin-bottom:12px}.stat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.stat-title{font-size:10px;letter-spacing:.9px;color:#978e96;text-transform:uppercase;font-weight:700}.stat-hint{font-size:9px;color:#b4abb1}.stats{display:grid;gap:10px}.stat-row{display:grid;grid-template-columns:87px 1fr 26px;gap:8px;align-items:center}.stat-name{font-size:10px;color:#77717b;display:flex;align-items:center;gap:6px}.stat-icon{font-size:11px;width:14px;text-align:center}.bar{height:6px;background:#f1eeec;border-radius:9px;overflow:hidden}.bar-fill{height:100%;border-radius:9px;transition:width .5s ease}.stat-value{font-size:9px;color:#8f8790;text-align:right;font-variant-numeric:tabular-nums}.actions-card{background:#fffdfa;border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px}.actions-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.actions-title strong{font:600 16px 'Playfair Display',serif}.actions-title span{font-size:9px;color:#aaa1a7}.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.action{border:1px solid #f0eae7;background:#fffdfa;border-radius:11px;padding:9px 9px 8px;text-align:left;min-height:68px;transition:.18s;position:relative}.action:hover{border-color:#e4c4bf;transform:translateY(-2px);box-shadow:0 5px 12px #58414a0d}.action.selected{border-color:#d9a1a0;background:#fcf4f1}.action-icon{font-size:15px;display:block;margin-bottom:4px}.action-name{font-size:10px;font-weight:600;color:#58515b;display:block}.action-meta{font-size:8px;color:#aaa1a8;margin-top:3px;display:block}.action.done{opacity:.48;pointer-events:none}.action.done:after{content:'✓';position:absolute;right:8px;top:8px;font-size:10px;color:#8aaf96}.action-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.action-note{font-size:9px;color:#aaa1a8}.primary{border:0;border-radius:9px;background:#bd7a7d;color:white;padding:9px 14px;font-size:10px;font-weight:600;box-shadow:0 4px 10px #bd7a7d2c;transition:.18s}.primary:hover{background:#a9686e;transform:translateY(-1px)}.primary:disabled{opacity:.45;cursor:not-allowed;transform:none}.relationship{margin-top:12px;border:1px solid var(--line);background:#fffdfa;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px}.friend-face{width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#dce8df,#a9c2b5);display:grid;place-items:center;font-size:21px}.friend-info{flex:1}.friend-name{font-size:10px;font-weight:600}.friend-line{font-size:9px;color:#a39aa1;margin-top:3px}.heart-count{color:#c78387;font-size:10px;letter-spacing:1px}.log-card{margin-top:12px;background:#f1ecea;border-radius:13px;padding:12px 14px}.log-title{font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#9e9298;font-weight:700;margin-bottom:8px}.log-body{font-size:10px;color:#777079;line-height:1.55;min-height:30px}.log-body b{color:#a76f77;font-weight:600}.overlay{position:fixed;inset:0;background:#302a3377;backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;z-index:10;padding:18px}.overlay.show{display:flex}.modal{width:min(470px,100%);background:#fffdfa;border:1px solid #fff;border-radius:20px;padding:27px 29px;box-shadow:0 25px 80px #29202b3b;animation:pop .25s ease}@keyframes pop{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}.modal-kicker{font-size:9px;letter-spacing:1.7px;color:#c18488;text-transform:uppercase;font-weight:700}.modal h2{font:600 29px 'Playfair Display',serif;margin:8px 0 9px}.modal p{font-size:12px;line-height:1.7;color:#817982;margin:0 0 17px}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}.secondary{border:1px solid var(--line);background:#fffdfa;padding:9px 13px;border-radius:9px;font-size:10px;color:#817982}.ending-icon{font-size:48px;margin:14px 0 2px}.ending-stats{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.ending-stats span{font-size:9px;background:#f5efec;color:#807780;border-radius:12px;padding:7px 10px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:10px 15px;border-radius:11px;background:#403b45;color:white;font-size:11px;z-index:20;transition:.25s;box-shadow:0 8px 25px #30283433}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1050px){.main{padding:20px}.content{grid-template-columns:minmax(390px,1.3fr) minmax(280px,.9fr);gap:15px}.scene-card{height:310px}.stat-row{grid-template-columns:75px 1fr 23px}.action{padding:8px;min-height:64px}}
+@media(max-width:780px){.app{grid-template-columns:1fr;min-height:100vh}aside{display:none}.main{padding:17px 15px 25px}.topbar{margin-bottom:13px}.content{grid-template-columns:1fr;gap:18px}.welcome h1{font-size:25px}.scene-card{height:min(64vw,340px);min-height:235px}.right-col{padding:0}.right-heading{margin-bottom:9px}.stat-card{padding:12px 14px}.stats{grid-template-columns:1fr 1fr;column-gap:13px;row-gap:11px}.stat-row{grid-template-columns:75px 1fr 22px}.action{min-height:74px;padding:9px}.action-grid{gap:8px}.top-actions{gap:7px}.profile-name,.profile-sub{display:none}.profile{margin-left:1px}.welcome p{max-width:230px;line-height:1.4}.date-pill{font-size:9px;padding:7px 9px}.relationship{margin-top:10px}.quote-card{margin-top:10px}}
+@media(max-width:390px){.main{padding:13px 11px 22px}.scene-card{min-height:215px}.stat-row{grid-template-columns:68px 1fr 20px;gap:6px}.stat-name{font-size:9px}.action-meta{font-size:7px}.welcome h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="brand-mark">✦</div><div><div class="brand-name">Hoshizora</div><div class="brand-sub">a little life</div></div></div>
+  <div class="side-label">YOUR STORY</div><nav class="nav"><button class="nav-item active"><span class="ico">⌂</span> Today</button><button class="nav-item" id="journalNav"><span class="ico">▤</span> Memories</button><button class="nav-item" id="peopleNav"><span class="ico">♡</span> People</button></nav>
+  <div class="season-card"><div class="season-small">A fresh beginning</div><div class="season-title">Spring Days</div><div class="season-date" id="sideDate">April · Week 1</div><div class="week-dots" id="weekDots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="side-bottom">A story shaped by you · v1.0</div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="crumb">HOSHIZORA <span style="color:#d2c9cd">/</span> <b>YOUR LITTLE LIFE</b></div><div class="top-actions"><button class="round-btn" id="soundBtn" title="Toggle ambience">♫</button><button class="round-btn" id="saveBtn" title="Save story">♡<i class="dot"></i></button><div class="profile"><div class="profile-avatar">🌸</div><div><div class="profile-name">Mika Aoyama</div><div class="profile-sub">the main character</div></div></div></div></header>
+  <div class="content">
+    <section class="left-col">
+      <div class="welcome"><div><div class="eyebrow" id="dayEyebrow">MONDAY · DAY 01</div><h1 id="greeting">A new day, Mika.</h1><p id="dayDesc">The first page of something wonderful.</p></div><div class="date-pill" id="datePill">🌸 &nbsp;April 1</div></div>
+      <div class="scene-card"><canvas id="scene" aria-label="A peaceful 3D-inspired anime bedroom scene"></canvas><div class="scene-top"><div class="tag"><span>✦</span><span id="weather">SPRING BREEZE</span></div><div class="tag" id="locationTag">⌂ &nbsp;Mika's room</div></div><div class="scene-bottom"><div class="scene-caption"><b id="sceneTitle">A quiet morning</b><span id="sceneSub"> · sunlight spills across the room</span></div><div class="scene-controls"><button id="rotateBtn" title="Change view">⟳</button><button id="daylightBtn" title="Change time of day">☼</button></div></div></div>
+      <div class="quote-card"><div class="quote-icon">❝</div><div class="quote-text" id="quote">Somewhere, something wonderful is waiting to be known.<b>— CARL SAGAN</b></div></div>
+    </section>
+    <section class="right-col">
+      <div class="right-heading"><h2>Your day</h2><div class="turn-label" id="turnLabel">TURN 1 OF 14</div></div>
+      <div class="stat-card"><div class="stat-head"><div class="stat-title">How you're feeling</div><div class="stat-hint">little things add up</div></div><div class="stats" id="stats"></div></div>
+      <div class="actions-card"><div class="actions-title"><strong>Spend your day</strong><span>choose one</span></div><div class="action-grid" id="actions"></div><div class="action-footer"><div class="action-note" id="actionNote">Your choices shape your story.</div><button class="primary" id="endTurn" disabled>End the day&nbsp; →</button></div></div>
+      <div class="relationship"><div class="friend-face">🍃</div><div class="friend-info"><div class="friend-name">Ren Takahashi <span style="font-weight:400;color:#aaa">· childhood friend</span></div><div class="friend-line" id="friendLine">Somehow, he always knows when to check in.</div></div><div class="heart-count" id="hearts">♡♡♡</div></div>
+      <div class="log-card"><div class="log-title">✧ &nbsp;A little memory</div><div class="log-body" id="memory">The breeze carries the scent of cherry blossoms through your open window.</div></div>
+    </section>
+  </div>
+</main>
+</div>
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const actionList=[
+ {id:'study',icon:'📚',name:'Study at the library',meta:'Wisdom +13 · Energy −14',scene:'library',text:'You lose yourself in a book, and the world grows a little bigger.',delta:{smarts:13,energy:-14,happiness:-2},special:{wisdom:1}},
+ {id:'paint',icon:'🎨',name:'Make something',meta:'Creativity +13 · Joy +8',scene:'art',text:'Color finds its way onto the page. It feels good to make something yours.',delta:{creativity:13,happiness:8,energy:-9},special:{art:1}},
+ {id:'work',icon:'☕',name:'Pick up a shift',meta:'Savings +12 · Energy −17',scene:'cafe',text:'A busy shift, warm coffee, and a little more independence in your pocket.',delta:{money:12,confidence:5,energy:-17},special:{work:1}},
+ {id:'explore',icon:'🚲',name:'Take the long way home',meta:'Courage +9 · Joy +8',scene:'park',text:'The winding path leads somewhere new. You are glad you took it.',delta:{courage:9,happiness:8,energy:-12},special:{adventure:1}},
+ {id:'rest',icon:'🫖',name:'Take a slow day',meta:'Energy +18 · Joy +5',scene:'room',text:'A book, a warm drink, and absolutely nowhere to be. Just what you needed.',delta:{energy:18,happiness:5},special:{rest:1}},
+ {id:'ren',icon:'🌿',name:'Find Ren after school',meta:'Bond +14 · Joy +7',scene:'park',text:'Ren saves you the sunny seat. The conversation drifts on until the sky turns peach.',delta:{bond:14,happiness:7,energy:-6},special:{ren:1}},
+ {id:'club',icon:'🎐',name:'Stay for art club',meta:'Creativity +8 · Friends +5',scene:'art',text:'You stay late with the club. Everyone leaves with paint on their sleeves and a smile.',delta:{creativity:8,bond:5,happiness:8,energy:-11},special:{club:1}},
+ {id:'help',icon:'🌼',name:'Help at the flower shop',meta:'Kindness +10 · Joy +6',scene:'shop',text:'You help arrange the spring flowers. Their colors stay with you all day.',delta:{kindness:10,happiness:6,energy:-8},special:{kind:1}}
+];
+const initial={day:1,energy:70,happiness:58,smarts:38,creativity:45,courage:30,bond:25,money:22,kindness:35,done:[],selected:null,memories:[],special:{},season:'Spring'};
+let state=loadState()||structuredClone(initial), view=0, evening=false, ambient=false, toastTimer;
+function loadState(){try{const s=JSON.parse(localStorage.getItem('hoshizora-save'));return s&&s.day? s:null}catch{return null}}
+const stats=[['energy','Energy','☼','#e6b96f'],['happiness','Joy','♡','#df9299'],['smarts','Wisdom','✧','#9baed0'],['creativity','Creativity','✿','#b69acb'],['courage','Courage','↗','#88b7aa'],['bond','Ren','♥','#d8909a'],['money','Savings','＄','#d1aa75'],['kindness','Kindness','❀','#91b39b']];
+const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const memoriesByDay=['The breeze carries the scent of cherry blossoms through your open window.','A small kindness has a way of making the whole day softer.','The afternoon light makes even familiar streets look new.','You wonder what the person you will become might say about today.','A good day does not need to be a big day.','Spring keeps showing up, even when you forget to look.','Somewhere, you are already becoming someone you will be proud of.'];
+function clamp(v){return Math.max(0,Math.min(100,v))}
+function render(){
+ const d=state.day, ended=d>14, day=d>14?14:d, weekday=days[(day-1)%7], week=Math.ceil(day/7), date=day<=7?day:day-7;
+ $('#dayEyebrow').textContent=ended?'YOUR STORY · COMPLETE':`${weekday.toUpperCase()} · DAY ${String(day).padStart(2,'0')}`;
+ $('#greeting').textContent=ended?'Your story, so far.':day===1?'A new day, Mika.':day===14?'One last spring day.':`${weekday}, Mika.`;
+ $('#dayDesc').textContent=ended?'Fourteen little days, all your own.':day===1?'The first page of something wonderful.':day===14?'The last page of spring is still unwritten.':'There is time for one small thing today.';
+ $('#datePill').innerHTML=`🌸 &nbsp;April ${date}`;$('#sideDate').textContent=`April · Week ${week}`;$('#turnLabel').textContent=ended?'STORY COMPLETE':`TURN ${day} OF 14`;
+ $('#weekDots').innerHTML=Array.from({length:7},(_,i)=>`<i class="${(day-1)%7>=i?'done':''}"></i>`).join('');
+ $('#stats').innerHTML=stats.map(([id,label,icon,color])=>`<div class="stat-row"><div class="stat-name"><span class="stat-icon" style="color:${color}">${icon}</span>${label}</div><div class="bar"><div class="bar-fill" style="width:${state[id]}%;background:${color}"></div></div><div class="stat-value">${state[id]}</div></div>`).join('');
+ $('#actions').innerHTML=actionList.map(a=>`<button class="action ${state.done.includes(a.id)?'done':''} ${state.selected===a.id?'selected':''}" data-id="${a.id}"><span class="action-icon">${a.icon}</span><span class="action-name">${a.name}</span><span class="action-meta">${a.meta}</span></button>`).join('');
+ document.querySelectorAll('.action').forEach(el=>el.onclick=()=>selectAction(el.dataset.id));
+ $('#endTurn').disabled=!state.selected||ended;$('#endTurn').textContent=ended?'Begin again ↻':day===14?'See what grows →':'End the day →';
+ $('#actionNote').textContent=ended?'Every ending begins somewhere.':state.selected?'A little choice can change everything.':'Your choices shape your story.';
+ $('#friendLine').textContent=state.bond>75?'He has become the person you want to tell everything to.':state.bond>48?'Lately, you and Ren have been talking a little more.':'Somehow, he always knows when to check in.';
+ $('#hearts').textContent='♥'.repeat(Math.max(1,Math.ceil(state.bond/25)))+'♡'.repeat(Math.max(0,4-Math.ceil(state.bond/25)));
+ $('#memory').innerHTML=state.memories.length?state.memories[state.memories.length-1]:memoriesByDay[(day-1)%memoriesByDay.length];
+ const a=actionList.find(a=>a.id===state.selected);$('#sceneTitle').textContent=a?sceneTitles[a.id]:'A quiet morning';$('#sceneSub').textContent=a?` · ${sceneSubs[a.id]}`:' · sunlight spills across the room';
+ $('#locationTag').innerHTML=a?`⌂ &nbsp;${sceneLabels[a.scene]}`:'⌂ &nbsp;Mika\'s room';
+ $('#weather').textContent=day>10?'GOLDEN HOUR':'SPRING BREEZE';
+ if(ended){$('#actions').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:22px 10px;color:#938a92;font-size:11px;line-height:1.6">Your days are in the memory book now.<br>See what kind of ending your choices made.</div>';$('#endTurn').disabled=false;$('#actionNote').textContent='Ready when you are.'}
+ drawScene();
+}
+const sceneTitles={study:'A world between pages',paint:'Color in the quiet',work:'A little café warmth',explore:'The long way home',rest:'A soft place to land',ren:'Under the spring trees',club:'After-school colors',help:'A handful of flowers'};
+const sceneSubs={study:'finding room to dream',paint:'making something yours',work:'earning your own way',explore:'taking the scenic route',rest:'letting the day be gentle',ren:'sharing the afternoon',club:'friends and paint-stained hands',help:'making someone smile'};
+const sceneLabels={library:'Library',art:'Art room',cafe:'Little café',park:'Sakura lane',room:'Mika\'s room',shop:'Flower shop'};
+function selectAction(id){if(state.done.includes(id))return;state.selected=id;render()}
+function persist(){localStorage.setItem('hoshizora-save',JSON.stringify(state))}
+function endDay(){if(state.day>14){showEnding();return}if(!state.selected){notify('Choose one little thing for today first.');return}const a=actionList.find(x=>x.id===state.selected);if(!a)return;
+ for(const [key,val] of Object.entries(a.delta))state[key]=clamp(state[key]+val);
+ for(const [key,val] of Object.entries(a.special))state.special[key]=(state.special[key]||0)+val;
+ state.done.push(a.id);state.memories.push(`<b>Day ${String(state.day).padStart(2,'0')}:</b> ${a.text}`);
+ const outcome={study:'A thought takes root.',paint:'You made something that feels like you.',work:'One more step toward your own future.',explore:'A little braver than yesterday.',rest:'You let yourself breathe.',ren:'Ren will remember this afternoon.',club:'You found your people in the paint room.',help:'The world feels a little kinder.'};
+ $('#log-title'); state.day++;
+ if(state.day<=14){if(state.day===8){state.memories.push('<b>Week two:</b> Cherry petals gather in the corners of the street. Somehow the days are going faster.')}state.selected=null;state.done=[];state.energy=clamp(state.energy+4);state.memories.push(`<b>A thought:</b> ${outcome[a.id]} Morning comes with another chance.`);}
+ persist();render();if(state.day>14)showEnding();else notify(outcome[a.id]);
+}
+function endingFor(){const s=state.special;if(state.bond>=75&&state.happiness>=60)return {icon:'🌸',name:'The One Who Stayed',desc:'Through all the little days, you kept making room for Ren. On the last afternoon, beneath a sky full of petals, friendship became the beginning of something more. Your story ends with two hands finding each other.',tag:'A tender romance'};
+if(state.creativity>=72&&s.art>=2)return {icon:'🎨',name:'A World in Color',desc:'You kept choosing the blank page, and one day it was no longer blank. A tiny gallery in a sunlit room, your name on the door, and a life made by your own hands. This is only your first canvas.',tag:'The artist ending'};
+if(state.smarts>=72&&s.wisdom>=2)return {icon:'📖',name:'The Faraway Scholar',desc:'Every late hour and every curious question carried you here. A letter arrives from the school you once only dreamed about. The horizon is wide, and you are ready for it.',tag:'The scholar ending'};
+if(state.courage>=60&&s.adventure>=2)return {icon:'🗺️',name:'Past the Last Train',desc:'You said yes to the unfamiliar road often enough that it became your own. With a well-worn bag and a thousand places left to see, you set off beyond the town you thought was the whole world.',tag:'The wanderer ending'};
+if(state.money>=48&&s.work>=2)return {icon:'☕',name:'A Place of Your Own',desc:'One careful shift at a time, you saved up enough to make a dream real. The little café has mismatched chairs, a bell over the door, and always one warm cup waiting for a friend.',tag:'The entrepreneur ending'};
+if(state.kindness>=58&&s.kind>=2)return {icon:'🌼',name:'The Heart of the Neighborhood',desc:'People started coming to you with small worries and leaving with lighter hearts. The town feels less like a place you live and more like a place that belongs to all of you.',tag:'The good neighbor ending'};
+if(state.energy>=72&&state.happiness>=68)return {icon:'🫖',name:'A Beautiful, Ordinary Life',desc:'No grand plan, no perfect answer. Just good mornings, open windows, little rituals, and the quiet discovery that a life does not have to be extraordinary to be wonderful.',tag:'The gentle days ending'};
+return {icon:'✨',name:'A Door Left Open',desc:'Not every story knows its ending yet. You tried a little of everything, changed your mind, and kept showing up. Spring is over, but you have the whole rest of your life to decide what comes next.',tag:'The open road ending'}}
+function showEnding(){const e=endingFor();$('#modal').innerHTML=`<div class="modal-kicker">YOUR SPRING STORY · DAY 14</div><div class="ending-icon">${e.icon}</div><h2>${e.name}</h2><p>${e.desc}</p><div class="ending-stats"><span>${e.tag}</span><span>✦ ${state.memories.length} memories</span><span>♥ Ren ${state.bond}</span></div><p style="font:italic 13px 'Playfair Display',serif;color:#9e8589">“Every ending is also a beginning.”</p><div class="modal-actions"><button class="secondary" id="closeModal">Close</button><button class="primary" id="restart">Play a new story ↻</button></div>`;openModal();$('#closeModal').onclick=closeModal;$('#restart').onclick=restart}
+function openModal(){ $('#overlay').classList.add('show') }function closeModal(){ $('#overlay').classList.remove('show') }
+function restart(){state=structuredClone(initial);persist();closeModal();render();notify('A fresh spring, and a brand-new story.')}
+function notify(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2100)}
+$('#endTurn').onclick=endDay;
+$('#saveBtn').onclick=()=>{persist();notify('Your story is safely tucked away.')};
+$('#rotateBtn').onclick=()=>{view=(view+1)%3;notify(['A different little corner of home.','The world looks lovely from here.','A new angle on an ordinary day.'][view])};
+$('#daylightBtn').onclick=()=>{evening=!evening;notify(evening?'The sky is turning to evening.':'Morning light again.')};
+$('#soundBtn').onclick=()=>{ambient=!ambient;$('#soundBtn').style.color=ambient?'#bd747a':'';notify(ambient?'A little quiet music, in your imagination.':'The room is quiet again.')};
+$('#journalNav').onclick=()=>{const entries=state.memories.slice(-6).reverse();$('#modal').innerHTML=`<div class="modal-kicker">THE LITTLE THINGS WE KEEP</div><h2>Memory book</h2><p>${entries.length?entries.join('<br><br>'):'Your story is just beginning. Choose an activity to collect your first memory.'}</p><div class="modal-actions"><button class="primary" id="closeModal">Back to today</button></div>`;openModal();$('#closeModal').onclick=closeModal};
+$('#peopleNav').onclick=()=>{const bond=state.bond;$('#modal').innerHTML=`<div class="modal-kicker">YOUR PEOPLE</div><h2>Ren Takahashi</h2><p>Childhood friend · always has an extra umbrella<br><br>${bond>70?'Lately, a comfortable silence has started to feel like its own kind of conversation.':bond>45?'There is a little more laughter between you these days. Keep showing up, and see what grows.':'He has known you since you both had scraped knees. There is still so much you have not said.'}</p><div class="ending-stats"><span>♥ Bond ${bond}/100</span><span>✦ Childhood friends</span></div><div class="modal-actions"><button class="primary" id="closeModal">Back to today</button></div>`;openModal();$('#closeModal').onclick=closeModal};
+$('#overlay').onclick=e=>{if(e.target.id==='overlay')closeModal()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+const canvas=$('#scene'),ctx=canvas.getContext('2d');let cw=720,ch=400,lastBlink=0,blink=0,raf;
+function resizeCanvas(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=Math.max(1,Math.floor(r.width*d));canvas.height=Math.max(1,Math.floor(r.height*d));cw=r.width;ch=r.height;ctx.setTransform(canvas.width/720,0,0,canvas.height/400,0,0)}
+new ResizeObserver(resizeCanvas).observe(canvas);window.addEventListener('resize',resizeCanvas);
+function poly(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.lineWidth=lw;ctx.strokeStyle=stroke;ctx.stroke()}}
+function rr(x,y,w,h,r,fill,stroke=null){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
+function ellipse(x,y,rx,ry,fill){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill()}
+function line(x1,y1,x2,y2,color,width=1){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke()}
+function drawScene(){if(!ctx||!canvas.width)return;const now=performance.now()/1000,action=actionList.find(a=>a.id===state.selected),kind=action?.scene||'room';const dusk=evening;const sky=dusk?'#b9a5be':'#d7e6e9',wall=dusk?'#d8c8d2':'#f1e7e2',floor=dusk?'#b9a2a0':'#d8c3b4';
+ ctx.clearRect(0,0,720,400);ctx.save();if(view===1){ctx.translate(720,0);ctx.scale(-1,1)}else if(view===2){ctx.translate(0,10)}
+ // room volume: back wall, side planes and perspective floor
+ const bg=ctx.createLinearGradient(0,0,0,300);bg.addColorStop(0,dusk?'#c3b5ca':'#d9e7ea');bg.addColorStop(1,wall);ctx.fillStyle=bg;ctx.fillRect(0,0,720,290);
+ poly([[0,0],[84,30],[84,292],[0,330]],dusk?'#bbaebf':'#e5d9d6');poly([[636,30],[720,0],[720,330],[636,292]],dusk?'#c3b4c0':'#e6d9d5');
+ const fl=ctx.createLinearGradient(0,280,0,400);fl.addColorStop(0,floor);fl.addColorStop(1,dusk?'#ad9290':'#c6aa9b');poly([[0,330],[84,292],[636,292],[720,330],[720,400],[0,400]],fl);
+ // converging floorboards
+ for(let i=0;i<8;i++){const y=302+i*i*1.35;line(15,y,705,y+(i*1.1),i%2?'#b9968b55':'#f2dfd055',1)}
+ for(let x=30;x<720;x+=98)line(360,293,x,400,'#b9958c44',1);
+ // back wall accents & trim
+ line(84,292,636,292,'#c7aaa3',3);line(85,31,635,31,'#fff8f2aa',2);
+ // window view, bright spring garden
+ rr(335,49,245,162,5,dusk?'#95899e':'#b8d8e2');
+ const wg=ctx.createLinearGradient(0,50,0,210);wg.addColorStop(0,dusk?'#aab0c9':'#b5dce7');wg.addColorStop(1,dusk?'#dfb5b2':'#e5e9d4');rr(341,55,233,150,2,wg);
+ // distant hills and blossoming trees
+ poly([[341,155],[389,119],[429,150],[474,113],[520,150],[574,128],[574,205],[341,205]],dusk?'#9b9ba8':'#a9c5a5');
+ poly([[341,174],[390,144],[429,169],[478,135],[521,170],[574,148],[574,205],[341,205]],dusk?'#8f9b9b':'#8faf91');
+ for(let i=0;i<16;i++){const x=351+(i*47)%216,y=112+(i*29)%65;ellipse(x,y,10+(i%3)*3,7+(i%2)*2,i%3===0?'#f0c2c7':i%3===1?'#d8aebd':'#e9c5bd')}
+ // window crossbars and sill
+ rr(335,47,245,7,3,'#fff9f0');rr(335,209,245,9,3,'#f8eee5');rr(451,53,6,155,2,'#fff8ef');rr(339,125,236,5,2,'#fff8ef');
+ // curtains, softly folded
+ poly([[319,42],[346,48],[347,213],[322,236],[329,171],[320,111]],'#efd2ca');poly([[584,44],[612,33],[610,115],[621,222],[582,210]],'#ead0cc');
+ line(325,45,590,45,'#c9a7a5',4);ellipse(329,45,5,5,'#d7b4ab');ellipse(588,45,5,5,'#d7b4ab');
+ // sunlight beam
+ if(!dusk){poly([[347,214],[567,214],[642,329],[253,329]],'#fff4cf19');poly([[352,210],[415,210],[310,328],[250,328]],'#fff5d622')}
+ // framed print and bookshelf
+ rr(115,72,111,91,5,'#d6b8aa');rr(121,78,99,79,2,'#faf1e5');poly([[131,145],[152,110],[173,137],[189,102],[211,145]],'#a6bda8');ellipse(171,100,10,9,'#e9b5b4');
+ rr(91,183,146,101,4,'#b98e78');rr(98,190,132,88,2,'#d5b29d');for(let i=0;i<4;i++){rr(104,199+i*19,119,3,1,'#a97f6c')};
+ for(let i=0;i<7;i++){const colors=['#d99b9a','#e5c27c','#a9b8a2','#bcadd0','#d3a886'];rr(106+i*16,181,12,17+(i%3)*4,2,colors[i%colors.length])}
+ // bed at foreground left, dimensional block and duvet
+ poly([[14,268],[177,248],[276,286],[105,322]],'#b88e83');poly([[105,322],[276,286],[276,344],[104,375]],'#dfc4bb');poly([[14,268],[105,322],[104,375],[14,320]],'#c9a89f');
+ poly([[19,263],[174,245],[267,282],[105,313]],'#f5e8df');poly([[20,263],[77,256],[117,280],[59,289]],'#fff9ef');poly([[104,286],[267,282],[231,305],[100,315]],'#e4b7b2');
+ // table on right with legs, top and drawers
+ poly([[478,234],[620,223],[687,250],[536,265]],'#ae806e');poly([[536,265],[687,250],[687,305],[536,322]],'#c2937d');poly([[478,234],[536,265],[536,322],[478,289]],'#d2a88f');
+ poly([[470,229],[618,216],[694,246],[540,263]],'#e4c2aa');line(544,268,544,310,'#b17f6f',2);line(678,256,678,299,'#b17f6f',2);
+ // desk lamp
+ line(602,221,602,185,'#846d70',4);line(602,187,620,171,'#846d70',4);poly([[609,167],[631,169],[638,182],[603,184]],'#e7c68c');ellipse(619,168,12,3,'#f6dfaa');
+ // potted plant on windowsill
+ rr(608,211,28,21,3,'#ce9e8d');for(let i=0;i<5;i++){line(621,213,608+i*6,188-(i%2)*8,'#648c76',2);ellipse(607+i*7,188-(i%2)*8,6,4,'#82a78d')}
+ // environment changes hint to locations
+ if(kind==='park'||kind==='cafe'||kind==='shop'||kind==='library'){
+   const tint=kind==='park'?'#dcebd8':kind==='cafe'?'#f4e1ce':kind==='shop'?'#f4e4e6':'#e2e4ef';
+   ctx.fillStyle=kind==='park'?'#a9c8b188':kind==='cafe'?'#bd8b6966':kind==='shop'?'#dfa0aa66':'#7e90b966';ctx.fillRect(0,0,720,400);
+   // scene-specific decorative foreground sign
+   if(kind==='park'){for(let i=0;i<5;i++){ellipse(56+i*151,68+(i%2)*14,27,18,'#cf9eae88')} }
+   if(kind==='library'){for(let i=0;i<8;i++){rr(96+i*16,198,12,67,2,['#bd8e78','#9babb0','#d0a765','#b99cad'][i%4])}}
+   if(kind==='cafe'){rr(358,90,137,42,12,'#fff9edb5');ctx.fillStyle='#a76f71';ctx.font='12px serif';ctx.fillText('coffee & spring',374,116)}
+   if(kind==='shop'){for(let i=0;i<4;i++){ellipse(365+i*38,215,10,15,['#e7a5ac','#f0c57f','#b8c99e','#c5a7d7'][i])}}
+ }
+ // character shadow
+ ellipse(368,333,70,15,'#65525a24');
+ const bob=Math.sin(now*2)*2.1,blinkNow=now-lastBlink>3.1;if(blinkNow){lastBlink=now;blink=.16}blink=Math.max(0,blink-.013);const cy=230+bob;
+ // seated legs / skirt
+ poly([[333,290+bob],[401,290+bob],[430,334],[394,343],[363,321],[339,342],[307,333]],'#8f879f');
+ // torso, cardigan silhouette and collar
+ poly([[328,238+bob],[350,229+bob],[382,230+bob],[407,247+bob],[414,300+bob],[397,313+bob],[326,307+bob],[315,279+bob]],'#d99896');
+ poly([[346,233+bob],[365,250+bob],[348,272+bob],[330,245+bob]],'#fff1e7');poly([[382,232+bob],[365,250+bob],[381,271+bob],[403,246+bob]],'#edb3a5');
+ line(365,255+bob,365,301+bob,'#bb7c80',1);for(let y=268;y<300;y+=12)ellipse(366,y+bob,1.5,1.5,'#f4d0bf');
+ // neck
+ rr(351,216+bob,28,30,7,'#f2c9b8');
+ // face and ears
+ ellipse(364,185+bob,48,54,'#f4ccbb');ellipse(316,190+bob,8,12,'#edbdaF');ellipse(412,190+bob,8,12,'#edbdaf');
+ // hair back shape
+ ctx.beginPath();ctx.moveTo(319,183+bob);ctx.quadraticCurveTo(308,122+bob,361,121+bob);ctx.quadraticCurveTo(421,117+bob,412,183+bob);ctx.lineTo(407,239+bob);ctx.lineTo(390,226+bob);ctx.lineTo(389,187+bob);ctx.lineTo(338,190+bob);ctx.lineTo(335,235+bob);ctx.lineTo(317,226+bob);ctx.closePath();ctx.fillStyle='#554957';ctx.fill();
+ // fringe
+ ctx.beginPath();ctx.moveTo(319,174+bob);ctx.quadraticCurveTo(320,130+bob,362,129+bob);ctx.quadraticCurveTo(402,128+bob,411,167+bob);ctx.lineTo(397,158+bob);ctx.lineTo(382,177+bob);ctx.lineTo(367,158+bob);ctx.lineTo(348,181+bob);ctx.lineTo(337,163+bob);ctx.closePath();ctx.fillStyle='#625365';ctx.fill();
+ // hair shine
+ ctx.beginPath();ctx.moveTo(337,144+bob);ctx.quadraticCurveTo(354,130+bob,379,137+bob);ctx.strokeStyle='#a88c9a';ctx.lineWidth=3;ctx.stroke();
+ // eyes with blinks
+ if(blink<.11){ellipse(346,190+bob,5,7,'#54444e');ellipse(382,190+bob,5,7,'#54444e');ellipse(347,188+bob,1.5,2,'#fff');ellipse(383,188+bob,1.5,2,'#fff')}else{line(340,190+bob,352,190+bob,'#785a62',2);line(376,190+bob,388,190+bob,'#785a62',2)}
+ // blush and smile
+ ellipse(334,205+bob,8,3,'#e89b9c55');ellipse(394,205+bob,8,3,'#e89b9c55');ctx.beginPath();ctx.arc(364,207+bob,5,0.2,Math.PI-.2);ctx.strokeStyle='#b87378';ctx.lineWidth=1.5;ctx.stroke();
+ // hair accessory & ambient petals
+ ellipse(409,154+bob,8,5,'#de9ca2');ellipse(415,149+bob,5,5,'#f3ccd0');
+ if(!dusk)for(let i=0;i<8;i++){const x=(80+i*107+Math.sin(now*.5+i)*12)%720,y=60+((i*37+now*9)%220);ctx.save();ctx.translate(x,y);ctx.rotate(now*.3+i);ctx.fillStyle='#f0bdc4aa';ctx.beginPath();ctx.ellipse(0,0,3.2,1.5,0,0,Math.PI*2);ctx.fill();ctx.restore()}
+ // gentle foreground vignette
+ const vign=ctx.createLinearGradient(0,0,0,400);vign.addColorStop(0,'#fff0');vign.addColorStop(1,'#51404a13');ctx.fillStyle=vign;ctx.fillRect(0,0,720,400);
+ ctx.restore();raf=requestAnimationFrame(drawScene);
+}
+render();resizeCanvas();if(state.day>14)showEnding();
+</script>
+</body>
+</html>

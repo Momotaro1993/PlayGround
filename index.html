@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f2e7">
+<link rel="icon" href="data:,">
+<title>The Quiet Meadow — a little watercolor wander</title>
+<style>
+:root{--ink:#46564d;--muted:#7d8477;--paper:#f7f4e9;--sage:#788e74;--gold:#d4a95c;--line:#e6e1d3}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background-color:var(--paper);background-image:radial-gradient(ellipse at 18% 24%,rgba(204,193,157,.11),transparent 36%),radial-gradient(ellipse at 82% 78%,rgba(161,176,145,.1),transparent 34%),url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");}
+.page{width:min(1120px,100%);margin:0 auto;padding:24px 32px 28px}.masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#e6e4d4;color:#788b71;font-size:23px;box-shadow:inset 0 0 0 1px #d9dccb}.eyebrow{font:700 10px/1.3 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#8c947e}.brand h1{font-size:clamp(23px,3vw,31px);font-weight:400;letter-spacing:.015em;margin:2px 0 0}.header-note{font-style:italic;color:#8b8b7b;font-size:14px}.game-frame{position:relative;border:1px solid #e2ddcf;border-radius:13px;padding:9px;background:rgba(255,255,255,.44);box-shadow:0 12px 40px rgba(100,91,67,.09),0 2px 4px rgba(100,91,67,.05)}.scene-wrap{position:relative;overflow:hidden;border-radius:8px;line-height:0;background:#e8e8d7}.scene{display:block;width:100%;height:auto;aspect-ratio:1000/600;touch-action:none}.hud{position:absolute;inset:18px 20px auto;display:flex;align-items:flex-start;justify-content:space-between;pointer-events:none;line-height:1}.hud-chip{padding:10px 14px;border:1px solid rgba(255,255,255,.67);border-radius:24px;background:rgba(250,248,237,.82);backdrop-filter:blur(8px);box-shadow:0 2px 12px #76735919;color:#4f5c4c;font:13px Arial,sans-serif;letter-spacing:.02em}.hud-chip b{font-size:15px;color:#42584b}.seed-icon{color:#c39b4e;font-size:16px;margin-right:5px}.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(66,75,60,.13);transition:opacity .25s}.overlay.hidden{opacity:0;pointer-events:none}.dialog{width:min(390px,calc(100% - 34px));text-align:center;padding:27px 30px 24px;border:1px solid #fff9;border-radius:12px;background:rgba(250,248,239,.94);box-shadow:0 12px 40px #514e3940;line-height:1.45}.dialog .tiny{font:700 10px Arial,sans-serif;text-transform:uppercase;letter-spacing:.22em;color:#849078}.dialog h2{font-size:32px;font-weight:400;margin:8px 0 9px;color:#4a5a4a}.dialog p{margin:0 auto 18px;font-size:15px;color:#747767;max-width:290px;line-height:1.55}.primary{border:0;border-radius:30px;background:#748a70;color:#fffdf4;font:14px Georgia,serif;letter-spacing:.04em;padding:12px 25px;cursor:pointer;box-shadow:0 3px 0 #5f765c;transition:transform .15s,background .15s}.primary:hover{background:#657d63;transform:translateY(-1px)}.primary:active{transform:translateY(2px);box-shadow:0 1px 0 #5f765c}.tip{font:12px Arial,sans-serif!important;color:#8c8d7f!important;margin:13px 0 0!important}.below{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:18px 3px 0}.quote{font-size:15px;font-style:italic;color:#778071}.quote span{display:block;font:10px Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#a09e8c;margin-top:6px}.controls{display:flex;align-items:center;gap:9px;color:#858879;font:11px Arial,sans-serif}.key{display:inline-grid;place-items:center;width:25px;height:24px;border:1px solid #dcd8c9;border-radius:5px;background:#faf8ef;color:#697267;font:12px Arial,sans-serif;box-shadow:0 1px 1px #b4ad991f}.keyset{display:flex;gap:3px;align-items:center}.mobile-pad{display:none;position:absolute;inset:auto 12px 12px;justify-content:space-between;align-items:end;pointer-events:none}.pad-group{display:grid;grid-template-columns:repeat(3,43px);grid-template-rows:repeat(2,43px);gap:4px;pointer-events:auto}.pad-button{border:1px solid #fff9;border-radius:12px;background:#f8f6e8c9;color:#52644f;font-size:18px;touch-action:none;box-shadow:0 2px 8px #48463122;user-select:none;-webkit-user-select:none}.pad-button:active{background:#dce4d0}.pad-button.up{grid-column:2}.pad-button.left{grid-column:1;grid-row:2}.pad-button.down{grid-column:2;grid-row:2}.pad-button.right{grid-column:3;grid-row:2}.pad-hint{pointer-events:none;font:10px Arial,sans-serif;color:#fff;text-shadow:0 1px 5px #343a2f;padding-bottom:8px}.footer{border-top:1px solid #e6e1d3;margin-top:18px;padding-top:12px;display:flex;justify-content:space-between;color:#a09d8b;font:10px Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:650px){.page{padding:14px 12px 20px}.masthead{margin:0 2px 13px}.header-note{display:none}.brand-mark{width:36px;height:36px}.game-frame{padding:5px;border-radius:10px}.scene-wrap{border-radius:6px}.hud{inset:9px 9px auto}.hud-chip{padding:8px 10px;font-size:11px}.hud-chip b{font-size:13px}.dialog{padding:20px 20px 18px}.dialog h2{font-size:27px;margin:6px 0}.dialog p{font-size:13px;margin-bottom:13px}.mobile-pad{display:flex}.below{padding:14px 2px 0;align-items:flex-start}.quote{font-size:13px}.controls{display:none}.footer{margin-top:13px;font-size:9px}}
+@media(max-height:650px) and (min-width:651px){.page{padding-top:12px}.masthead{margin-bottom:10px}.below{padding-top:11px}}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="masthead"><div class="brand"><div class="brand-mark" aria-hidden="true">❋</div><div><div class="eyebrow">A small meadow story</div><h1>The Quiet Meadow</h1></div></div><div class="header-note">a little watercolor wander</div></header>
+<section class="game-frame" aria-label="The Quiet Meadow game">
+<div class="scene-wrap"><canvas class="scene" id="game" width="1000" height="600" tabindex="0" aria-label="Watercolor meadow game. Find eight golden seeds."></canvas>
+<div class="hud"><div class="hud-chip"><span class="seed-icon">✦</span><span id="seed-count">0</span> <span style="color:#898b7d">/ 8 seeds</span></div><div class="hud-chip">☼ &nbsp;<b id="time-left">1:15</b></div></div>
+<div class="overlay" id="overlay"><div class="dialog"><div class="tiny" id="dialog-kicker">A gentle little quest</div><h2 id="dialog-title">Gather a handful</h2><p id="dialog-copy">Wander through the meadow as a curious pheasant. Find eight golden seeds before the afternoon light fades.</p><button class="primary" id="start-button">Begin wandering&nbsp; →</button><p class="tip" id="dialog-tip">Move with the arrow keys or WASD</p></div></div>
+<div class="mobile-pad" id="mobile-pad" aria-label="Touch movement controls"><div class="pad-group"><button class="pad-button up" data-dir="up" aria-label="Move up">↑</button><button class="pad-button left" data-dir="left" aria-label="Move left">←</button><button class="pad-button down" data-dir="down" aria-label="Move down">↓</button><button class="pad-button right" data-dir="right" aria-label="Move right">→</button></div><div class="pad-hint">a quiet stroll</div></div>
+</div></section>
+<div class="below"><div class="quote">“The smallest things take up the most room in your heart.”<span>— A meadow proverb</span></div><div class="controls"><div class="keyset"><span class="key">↑</span><span class="key">←</span><span class="key">↓</span><span class="key">→</span></div><span>or</span><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span><span>to wander</span></div></div>
+<footer class="footer"><span>Take your time out there</span><span>Made for a softer kind of day</span></footer>
+</main>
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const W = 1000, H = 600;
+  const overlay = document.getElementById('overlay');
+  const seedLabel = document.getElementById('seed-count');
+  const timeLabel = document.getElementById('time-left');
+  const startButton = document.getElementById('start-button');
+  const keys = new Set();
+  const bird = { x: 495, y: 440, dir: 1, step: 0 };
+  let seeds = [], state = 'ready', time = 75, last = 0, elapsed = 0, found = 0, puff = [];
+  const flowerColors = ['#d3a9a0','#eee5c7','#c6bd91','#d8c6a9','#c5cfae'];
+  const rand = (a,b) => a + Math.random() * (b-a);
+  const clamp = (v,a,b) => Math.max(a, Math.min(b,v));
+  const meadowPatches = Array.from({length:44},(_,i)=>({x:(i*227+41)%1000,y:398+(i*97%202),rx:25+(i*37%61),ry:12+(i*23%24),tone:i%2?'#cbd3ad':'#f3edcf',alpha:.08+(i%5)*.025}));
+
+  function wash(x,y,rx,ry,color,alpha=1,angle=0) {
+    ctx.save(); ctx.translate(x,y); ctx.rotate(angle); ctx.globalAlpha=alpha;
+    const g=ctx.createRadialGradient(-rx*.18,-ry*.2,Math.min(rx,ry)*.08,0,0,Math.max(rx,ry)*1.12);
+    g.addColorStop(0,color); g.addColorStop(.68,color); g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2); ctx.fill(); ctx.restore();
+  }
+  function path(points, color, width, alpha=1) {
+    ctx.save(); ctx.globalAlpha=alpha; ctx.strokeStyle=color; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.beginPath(); points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.stroke(); ctx.restore();
+  }
+  function drawCloud(x,y,s,a=1) {
+    ctx.save();ctx.globalAlpha=a;wash(x,y,s*1.65,s*.45,'#fffdf2',.66);
+    [[-.7,.04,.48,.42],[ -.25,-.16,.52,.62],[.2,-.18,.57,.62],[.66,.08,.54,.42]].forEach(([dx,dy,sx,sy])=>wash(x+dx*s,y+dy*s,s*sx,s*sy,'#fffef4',.68));ctx.restore();
+  }
+  function drawHill(y,color,amp,phase) {
+    ctx.beginPath();ctx.moveTo(0,H);ctx.lineTo(0,y);
+    for(let x=0;x<=W;x+=20) ctx.lineTo(x,y+Math.sin(x*.006+phase)*amp+Math.sin(x*.015+phase*2)*amp*.25);
+    ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=color;ctx.fill();
+  }
+  function paintBackground() {
+    const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#e7ebdc');sky.addColorStop(.55,'#f1efd9');sky.addColorStop(1,'#e7e6cc');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    wash(160,105,260,150,'#fff8df',.7);wash(850,90,230,135,'#dbe5d8',.36);
+    drawCloud(200+Math.sin(elapsed*.12)*8,112,63,.51);drawCloud(720+Math.sin(elapsed*.1)*11,150,48,.38);
+    // Distant tree silhouettes, softened into the hill.
+    for(let i=0;i<17;i++){const x=i*68-22, y=263+Math.sin(i*2.7)*25, r=34+(i*17%27);wash(x,y,r,r*1.5,i%3?'#aab79c':'#b8bca0',.38);}
+    drawHill(300,'#cbd2b5',18,.6);drawHill(345,'#d9dbbb',22,2.1);drawHill(390,'#e5e3c2',25,4.0);
+    const ground=ctx.createLinearGradient(0,330,0,H);ground.addColorStop(0,'#e9e5c4');ground.addColorStop(.48,'#ede7c8');ground.addColorStop(1,'#e4dfbf');ctx.fillStyle=ground;ctx.fillRect(0,385,W,215);
+    // Diffuse watercolor patches in the meadow.
+    meadowPatches.forEach(p=>wash(p.x,p.y,p.rx,p.ry,p.tone,p.alpha));
+    // A soft path curling through the grass.
+    ctx.save();ctx.globalAlpha=.38;ctx.beginPath();ctx.moveTo(-20,543);ctx.bezierCurveTo(215,475,270,575,470,522);ctx.bezierCurveTo(660,472,779,559,1030,494);ctx.lineWidth=72;ctx.strokeStyle='#e7d8b8';ctx.stroke();ctx.restore();
+    drawFlowers();
+  }
+  function drawFlowers() {
+    for(let i=0;i<42;i++){
+      const x=(i*173+31)%1000, y=410+(i*83%190), h=9+(i*19%18);
+      if(y>bird.y-27&&y<bird.y+23&&Math.abs(x-bird.x)<82) continue;
+      path([[x,y+8],[x+Math.sin(i)*2,y-h]],'#849778',1.5,.55);
+      if(i%3===0) path([[x,y-2],[x-5,y-7]],'#91a17d',1.2,.6);
+      wash(x,y-h,5,4,flowerColors[i%flowerColors.length],.75);
+      for(let j=0;j<4;j++){const a=j*Math.PI/2;wash(x+Math.cos(a)*3.3,y-h+Math.sin(a)*2.8,2.5,2.2,flowerColors[i%flowerColors.length],.8);}
+      wash(x,y-h,1.5,1.5,'#c69b58',.85);
+    }
+    for(let i=0;i<19;i++){const x=(i*241+80)%1000,y=393+(i*61%197);path([[x,y+10],[x-3,y-9]],'#778d70',2,.4);path([[x-2,y+2],[x+6,y-5]],'#829678',3,.37);}
+  }
+  function seedPoints(){
+    const spots=[[145,470],[282,515],[395,426],[594,489],[750,435],[864,519],[690,555],[112,554]];
+    return spots.map(([x,y],i)=>({x,y,got:false,phase:i*1.7}));
+  }
+  function paintSeed(s){
+    if(s.got)return;
+    const bob=Math.sin(elapsed*2.2+s.phase)*3, x=s.x,y=s.y+bob;
+    wash(x,y+5,18,10,'#bba46b',.18);
+    ctx.save();ctx.translate(x,y);ctx.rotate(-.38);
+    wash(-2,0,6,9,'#dab65f',.94);wash(-3,-2,3.8,6,'#f3d982',.9);
+    path([[-1,-6],[5,-11]],'#8da077',2,.75);
+    ctx.restore();
+    ctx.save();ctx.globalAlpha=.6+.35*Math.sin(elapsed*3+s.phase);ctx.fillStyle='#fff7d1';ctx.beginPath();ctx.arc(x+8,y-7,1.7,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
+  function paintBird(){
+    const bob=state==='playing'?Math.abs(Math.sin(bird.step))*2.2:Math.sin(elapsed*1.5)*1.5;
+    const x=bird.x,y=bird.y+bob;
+    // Grounding shadow, then an airy ochre wash under the bird.
+    wash(x-3,y+1,63,18,'#8e8067',.18);wash(x-14,y-2,94,22,'#d7c79f',.21);
+    ctx.save();ctx.translate(x,y);ctx.scale(bird.dir,1);
+    // Tiny stepping legs and toes.
+    const stride=state==='playing'?Math.sin(bird.step*2)*4:0;
+    path([[-8,-5],[-10+stride,-1],[-17+stride,0]],'#8c7555',2,.85);
+    path([[12,-5],[13-stride,-1],[20-stride,0]],'#8c7555',2,.85);
+    path([[-19+stride,0],[-13+stride,-1]],'#8c7555',1.5,.8);path([[18-stride,0],[24-stride,-1]],'#8c7555',1.5,.8);
+    // Rounded fanned tail peeking from the left.
+    wash(-48,-34,29,25,'#b79472',.78,-.2);wash(-54,-33,22,18,'#ccb18c',.67,.22);
+    // Plump warm body, with translucent overlapping feather washes.
+    wash(-10,-31,55,39,'#b99479',.96,-.08);wash(-16,-25,48,31,'#cfb397',.82,-.18);
+    wash(-30,-18,33,22,'#a98775',.61,.12);wash(11,-21,32,28,'#d6b89a',.65,-.22);
+    for(let i=0;i<17;i++){
+      const fx=-48+(i*29%75), fy=-46+(i*17%34);
+      ctx.save();ctx.translate(fx,fy);ctx.rotate(-.3+(i%4)*.17);ctx.globalAlpha=.22+(i%3)*.07;
+      ctx.fillStyle=i%2?'#8f7664':'#ead1ad';ctx.beginPath();ctx.ellipse(0,0,5+(i%4),2.7,0,0,Math.PI*2);ctx.fill();ctx.restore();
+    }
+    // Long teal breast and graceful upright neck.
+    ctx.beginPath();ctx.moveTo(-2,-51);ctx.bezierCurveTo(-17,-70,-8,-100,4,-117);ctx.bezierCurveTo(13,-128,31,-121,29,-107);ctx.bezierCurveTo(25,-90,26,-76,39,-59);ctx.bezierCurveTo(46,-48,32,-35,16,-38);ctx.closePath();
+    const neck=ctx.createLinearGradient(-9,-115,35,-52);neck.addColorStop(0,'#527c7e');neck.addColorStop(.52,'#39747a');neck.addColorStop(1,'#789b8c');ctx.fillStyle=neck;ctx.globalAlpha=.96;ctx.fill();
+    wash(11,-83,9,34,'#5b9290',.38,-.16);wash(28,-54,16,15,'#527d78',.39);
+    // Flecks of breast plumage.
+    for(let i=0;i<8;i++){const px=5+(i%3)*8,py=-69-Math.floor(i/3)*8;wash(px,py,2.4,1.5,'#e1d9b8',.52,.3);}
+    // Rose-crowned head and pale cheek.
+    wash(20,-119,19,17,'#bd8b88',.96,-.2);wash(13,-124,12,10,'#d4a19a',.82,.3);
+    wash(25,-113,11,9,'#e5d5bd',.94,-.2);
+    // Beak, eye, and a quiet painted eye-line.
+    ctx.fillStyle='#756f62';ctx.beginPath();ctx.moveTo(34,-120);ctx.quadraticCurveTo(49,-124,54,-117);ctx.quadraticCurveTo(44,-115,34,-116);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#fbf5df';ctx.beginPath();ctx.arc(25,-121,5.6,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#302f2a';ctx.beginPath();ctx.arc(26,-121,3.6,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fffdf1';ctx.beginPath();ctx.arc(27,-122,1,0,Math.PI*2);ctx.fill();
+    path([[33,-109],[38,-106]],'#a76f6d',1.7,.58);
+    ctx.restore();
+    // soft ring when a seed has just been found
+    if(puff.length){ctx.save();puff.forEach(p=>{ctx.globalAlpha=Math.max(0,1-p.age/.7);ctx.strokeStyle='#e2c36e';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,8+p.age*25,0,Math.PI*2);ctx.stroke();});ctx.restore();}
+  }
+  function update(dt){
+    elapsed+=dt;
+    if(state==='playing'){
+      time=Math.max(0,time-dt);
+      let dx=(keys.has('right')?1:0)-(keys.has('left')?1:0);
+      let dy=(keys.has('down')?1:0)-(keys.has('up')?1:0);
+      if(dx||dy){const mag=Math.hypot(dx,dy);dx/=mag;dy/=mag;bird.x=clamp(bird.x+dx*155*dt,35,965);bird.y=clamp(bird.y+dy*145*dt,270,575);bird.step+=dt*10;if(dx)bird.dir=dx>0?1:-1;}
+      seeds.forEach(s=>{if(!s.got&&Math.hypot(s.x-bird.x,s.y-bird.y)<39){s.got=true;found++;seedLabel.textContent=found;puff.push({x:s.x,y:s.y,age:0});}});
+      puff.forEach(p=>p.age+=dt);puff=puff.filter(p=>p.age<.7);
+      timeLabel.textContent=`${Math.floor(time/60)}:${String(Math.ceil(time%60)).padStart(2,'0')}`;
+      if(found===8)finish(true);else if(time<=0)finish(false);
+    }
+  }
+  function paint(){
+    paintBackground();seeds.forEach(paintSeed);paintBird();
+    // Loose wisps of grass close to the viewer add depth without hiding the path.
+    for(let i=0;i<13;i++){const x=(i*89+17)%1000,y=570+(i*31%29);path([[x,y],[x-3,y-9],[x-8,y-13]],'#879271',1.8,.34);}
+  }
+  function frame(now){const dt=Math.min(.04,(now-last)/1000||0);last=now;update(dt);paint();requestAnimationFrame(frame);}
+  function finish(won){
+    state=won?'won':'lost';keys.clear();overlay.classList.remove('hidden');
+    document.getElementById('dialog-kicker').textContent=won?'A lovely little harvest':'The light is growing soft';
+    document.getElementById('dialog-title').textContent=won?'Well gathered, little one':'One more gentle stroll?';
+    document.getElementById('dialog-copy').textContent=won?'Eight golden seeds, gathered with care. The meadow is grateful for your visit.':`You found ${found} of the eight golden seeds. There is always another sunny afternoon.`;
+    document.getElementById('dialog-tip').textContent=won?'A perfect handful for a quiet day':'Take a breath, then wander again';
+    startButton.innerHTML='Wander again&nbsp; →';
+  }
+  function begin(){
+    found=0;time=75;bird.x=495;bird.y=440;bird.dir=1;bird.step=0;seeds=seedPoints();puff=[];state='playing';
+    seedLabel.textContent='0';timeLabel.textContent='1:15';keys.clear();overlay.classList.add('hidden');canvas.focus({preventScroll:true});
+  }
+  startButton.addEventListener('click',begin);
+  const keyMap={ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right'};
+  window.addEventListener('keydown',e=>{
+    const dir=keyMap[e.key];if(dir){e.preventDefault();keys.add(dir);}
+    if((e.key==='Enter'||e.key===' ')&&state!=='playing'){e.preventDefault();begin();}
+  });
+  window.addEventListener('keyup',e=>{const dir=keyMap[e.key];if(dir)keys.delete(dir);});
+  window.addEventListener('blur',()=>keys.clear());
+  document.querySelectorAll('.pad-button').forEach(button=>{
+    const dir=button.dataset.dir;
+    button.addEventListener('pointerdown',e=>{e.preventDefault();button.setPointerCapture(e.pointerId);keys.add(dir);});
+    const release=e=>{e.preventDefault();keys.delete(dir);};
+    button.addEventListener('pointerup',release);button.addEventListener('pointercancel',release);button.addEventListener('lostpointercapture',()=>keys.delete(dir));
+  });
+  seeds=seedPoints();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

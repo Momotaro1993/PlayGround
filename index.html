@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>THE LAST FLOOR</title>
+  <style>
+    :root { --ink:#d8d2c4; --dim:#777568; --blood:#a43c32; --paper:#151713; --line:#35382f; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:#090a08; color:var(--ink); font-family:"Courier New",monospace; overflow-x:hidden; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:20; opacity:.11; background:repeating-linear-gradient(0deg,transparent 0 3px,#000 4px); }
+    #app { min-height:100vh; display:grid; grid-template-columns:minmax(280px,520px) minmax(280px,1fr); width:min(1180px,100%); margin:auto; border-inline:1px solid #24271f; }
+    .left { position:relative; min-height:100vh; border-right:1px solid var(--line); background:#10120f; }
+    .visual { height:52vh; min-height:320px; max-height:560px; border-bottom:1px solid var(--line); position:relative; overflow:hidden; }
+    canvas { width:100%; height:100%; image-rendering:pixelated; display:block; }
+    .location { position:absolute; left:18px; top:16px; font-size:11px; letter-spacing:3px; color:#a7a89d; text-shadow:2px 2px #000; }
+    .threat { position:absolute; right:18px; top:16px; font-size:11px; letter-spacing:2px; color:#aaa; }
+    .threat i { display:inline-block;width:7px;height:7px;margin-left:3px;background:#34372f;border:1px solid #777; }
+    .threat i.on { background:var(--blood); box-shadow:0 0 8px #a43c32; }
+    .status { display:flex; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    .tag { border:1px solid #44463e; padding:5px 8px; font-size:11px; color:#aaa; }
+    .tag b { color:#d7d1bf; }
+    .story { padding:22px 20px 18px; min-height:170px; }
+    .eyebrow { color:var(--blood); font-size:10px; letter-spacing:4px; margin-bottom:11px; }
+    #text { line-height:1.65; font-size:14px; min-height:72px; }
+    #choices { display:grid; gap:8px; padding:0 20px 20px; }
+    .choice { appearance:none;border:1px solid #42463b;background:#161812;color:var(--ink);font:14px "Courier New",monospace;text-align:left;padding:12px 12px;cursor:pointer;transition:.12s; }
+    .choice:hover,.choice:focus { background:#25281f;border-color:#77796b;outline:none;transform:translateX(3px); }
+    .choice .num { color:var(--blood); margin-right:10px; }
+    .right { padding:26px; display:flex;flex-direction:column; }
+    .title { margin:0 0 4px; font-family:Georgia,serief; font-size:28px; letter-spacing:5px; font-weight:normal; }
+    .subtitle { color:var(--dim); font-size:10px; letter-spacing:4px; margin-bottom:26px; }
+    .panel { border-top:1px solid var(--line); padding:16px 0; }
+    .panel h2 { font-size:10px; letter-spacing:3px;color:#888a7e;margin:0 0 12px;font-weight:normal; }
+    #map { display:grid; grid-template-columns:repeat(5,28px);gap:4px; }
+    .cell { width:28px;height:28px;border:1px solid #2d3028;background:#11130f;position:relative; }
+    .cell.visited { background:#292c23;border-color:#555848; }
+    .cell.current { background:var(--blood);border-color:#d16a5e;box-shadow:0 0 10px #743; }
+    .cell.exit::after { content:"";position:absolute;width:6px;height:6px;background:#b8b6a4;left:10px;top:10px; }
+    #inventory { display:flex;flex-wrap:wrap;gap:7px;min-height:36px; }
+    .item { padding:7px 9px;border:1px solid #383b32;color:#aaa;font-size:11px; }
+    .log { margin-top:auto; max-height:150px;overflow:hidden;color:#67695f;font-size:11px;line-height:1.6; }
+    .log p { margin:4px 0; }
+    .controls { display:flex; gap:8px; margin-top:14px; }
+    .small { background:none;border:1px solid #35382f;color:#77796e;padding:8px 10px;font:10px monospace;cursor:pointer; }
+    @media(max-width:760px){ #app{display:block;overflow:hidden;} .left{min-height:auto;border-right:0}.visual{height:34vh;min-height:220px}.right{padding:18px}.log{display:none}.story{min-height:125px}.controls{position:fixed;z-index:30;right:10px;bottom:10px}.small{background:#12140fe8}.title{font-size:20px}.subtitle{margin-bottom:14px}.panel:not(#invpanel){padding:10px 0}} 
+  </style>
+</head>
+<body>
+<div id="app">
+  <main class="left">
+    <div class="visual"><canvas id="scene" width="160" height="120"></canvas><div class="location" id="location">NIGHT 01 / 5</div><div class="threat" id="threat">DREAD <i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="status"><div class="tag">SANITY <b id="sanity">100</b></div><div class="tag">TORCH <b id="torch">12</b></div><div class="tag">NIGHT <b id="night">1</b></div></div>
+    <div class="story"><div class="eyebrow" id="eyebrow">YOU WAKE</div><div id="text"></div></div>
+    <div id="choices"></div>
+  </main>
+  <aside class="right">
+    <h1 class="title">THE LAST FLOOR</h1><div class="subtitle">A PROCEDURAL DESCENT</div>
+    <div class="panel"><h2>FLOOR PLAN</h2><div id="map"></div></div>
+    <div class="panel" id="invpanel"><h2>POCKETS / 4 SLOTS</h2><div id="inventory"></div></div>
+    <div class="log" id="log"></div>
+    <div class="controls"><button class="small" id="sound">SOUND: OFF</button><button class="small" id="restart">NEW DESCENT</button></div>
+  </aside>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>Math.floor(Math.random*(b-a+1))+a;
+const names=['THE BOILER ROOM','THE GREEN HALL','THE SILENT CHAPEL','THE ROOT CELLAR','THE RECORD ROOM','THE EMPTY WARD','THE WATER STAIR','THE PAINTED ROOM','THE FEEDING HALL','THE COLD ARCHIVE'];
+let seed,rooms,player,game,sceneKind,audioCtx,sound=false;
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function newGame(){seed=Math.floor(Math.random()*999999);Math.random=mulberry32(seed);rooms=[];for(let y=0;y<5;y++)for(let x=0;x<5;x++)rooms.push({x,y,seen:false,kind:rnd(0,9),event:true});player={x:2,y:4,health:100,torch:12,dread:0,items:[],night:1,exit:{x:rnd(0,4),y:rnd(0,1)},steps:0};rooms.forEach(r=>r.seen=false);roomAt(2,4).seen=true;game='play';sceneKind=0;$('#log').innerHTML='';describe('YOU WAKE','The elevator doors are gone. There is only a stairwell descending behind you, and wet knocking beneath the floor.');render();}
+function roomAt(x,y){return rooms.find(r=>r.x===x&&r.y===y)}
+function describe(title,text){$('#eyebrow').textContent=title;$('#text').textContent=text;}
+function log(s){const p=document.createElement('p');p.textContent='› '+s;$('#log').prepend(p);}
+function choices(list){const el=$('#choices');el.innerHTML='';list.forEach((c,i)=>{const b=document.createElement('button');b.className='choice';b.innerHTML=`<span class="num">${i+1}</span>${c.label}`;b.onclick=c.go;el.appendChild(b);});}
+function move(dx,dy){const nx=player.x+dx,ny=player.y+dy;if(nx<0||nx>4||ny<0||ny>4){describe('NO WAY THROUGH','The wall is slick and unyielding. Something presses back through the plaster.');afterMove(false);return;}player.x=nx;player.y=ny;player.steps++;const r=roomAt(nx,ny);r.seen=true;if(player.x===player.exit.x&&player.y===player.exit.y){ending(true);return;}afterMove(true);}
+function afterMove(entered){if(entered){player.torch=Math.max(0,player.torch-1);sceneKind=rnd(0,9);const r=roomAt(player.x,player.y);describe(names[r.kind],moveText(r.kind));if(r.event){r.event=false;threat( rnd(0,1)); if(player.torch<4&&rnd(0,2)==0)threat(1);} }
+  choices([dirChoice('North',0,-1),dirChoice('East',1,0),dirChoice('South',0,1),dirChoice('West',-1,0),{label:'Search the room',go:search}]);render();}
+function moveText(k){return ['The furnace breathes even though there is no fire.','Varnished doors show reflections one second late.','A saint’s eyes have been scratched to pits.','Roots are knotting in the ceiling like veins.','Magnetic tape whispers when it is passed.','Curtains hang around beds that have no sheets.','Black water climbs one step for every step you take.','The walls are painted with a door that does not exist.','Long tables are set for diners still hidden by fog.','Cold rows of boxes bear names in your handwriting.'][k]}
+function dirChoice(label,dx,dy){return {label,go:()=>move(dx,dy)}}
+function search(){if(player.items.length>=4&&rnd(0,2)>0){describe('NOTHING LEFT','Your pockets are full of things you should not have brought.');log('searched—nothing useful');choices([dirChoice('Continue North',0,-1),dirChoice('Continue East',1,0),dirChoice('Continue South',0,1),dirChoice('Continue West',-1,0)]);render();return;} const roll=rnd(0,5);if(roll===0){describe('A HAND IN THE WALL','Fingers close around the torch. It guttered, then went black.');player.torch=Math.max(0,player.torch-3);threat(2);log('something caught the light');}else if(roll===1&& !player.items.includes('BELL')){describe('A SMALL SILVER BELL','It rings once in your palm, though the clapper is frozen.');player.items.push('BELL');log('found: silver bell');}else if(roll===2&& !player.items.includes('KEY')){describe('THE RED KEY','It warms against your skin. Three teeth point in the wrong direction.');player.items.push('KEY');log('found: red key');}else if(roll===3&&player.torch<12){describe('KINDLING','Someone has tied a bundle of matches in a ribbon.');player.torch=Math.min(12,player.torch+4);log('restored some light');}else{describe('YOUR OWN FOOTPRINT','There is a fresh print behind you, pointing the wrong way.');threat(1);log('heard a footstep behind you');}choices([{label:'Keep moving',go:()=>afterMove(false)},{label:'Leave this room',go:()=>choices([dirChoice('North',0,-1),dirChoice('East',1,0),dirChoice('South',0,1),dirChoice('West',-1,0)])}]);render();}
+function threat(n){player.dread=Math.min(5,player.dread+n);if(player.dread>=5){ending(false);}}
+function ending(won){game='over';beep(won?523:80,0.7);if(won){describe('THE EXIT OPENS','The red door exhales dust. You step through—and the knocking follows, politely, for three floors.');choices([{label:'DESCEND AGAIN',go:newGame}]);}else{describe('IT FINDS YOU','The lights go out. In the darkness, the bell continues ringing after you stop holding it.');choices([{label:'WAKE AGAIN',go:newGame}]);}render();}
+function render(){$('#sanity').textContent=100-player.dread*17;$('#torch').textContent=player.torch;$('#night').textContent=player.night;$('#location').textContent=`NIGHT ${String(player.night).padStart(2,'0')} / ${String(rooms.filter(r=>r.seen).length).padStart(2,'0')}`;$('#threat').innerHTML='DREAD '+[0,1,2,3,4].map(i=>`<i class="${i<player.dread?'on':''}"></i>`).join('');$('#inventory').innerHTML=player.items.length?player.items.map(x=>`<span class="item">${x}</span>`).join(''):'<span class="item" style="color:#555">EMPTY</span>';const map=$('#map');map.innerHTML='';for(let y=0;y<5;y++)for(let x=0;x<5;x++){const r=roomAt(x,y),c=document.createElement('div');c.className='cell'+(r.seen?' visited':'')+(player.x===x&&player.y===y?' current':'')+(player.exit.x===x&&player.exit.y===y&&r.seen?' exit':'');map.appendChild(c);}draw();}
+function draw(){const c=$('#scene'),x=c.getContext('2d');x.imageSmoothingEnabled=false;const w=c.width,h=c.height;const px=(X,Y,C)=>{x.fillStyle=C;x.fillRect(X,Y,1,1)};x.fillStyle='#090b09';x.fillRect(0,0,w,h);const flick=player.torch>7?'#4a4d40':player.torch>3?'#35382f':'#24251f';x.fillStyle=flick;x.fillRect(14,18,132,84);x.fillStyle='#171914';x.fillRect(20,24,120,72);x.fillStyle='#070807';x.fillRect(48,34,64,62);x.fillStyle='#24271f';x.fillRect(52,38,56,58);const light=player.torch/12;x.fillStyle=`rgba(183,174,137,${.08+light*.25})`;x.fillRect(58,42,44,54); // door
+if(game==='over'){x.fillStyle='#080808';x.fillRect(0,0,w,h);}
+x.fillStyle='#151713';for(let i=0;i<17;i++){let X=(i*37+seed)%160,Y=(i*53+seed*3)%120;x.fillRect(X,Y,1+(i%3),1+(i%2));}
+// corridor and door
+x.fillStyle='#0a0b09';x.fillRect(72,48,16,42);x.fillStyle='#b1a98f';x.globalAlpha=.25+.5*light;x.fillRect(74,51,12,36);x.globalAlpha=1;x.fillStyle='#25271f';x.fillRect(75,52,10,35);x.fillStyle='#a7352e';x.fillRect(79,66,2,2); // torch glow
+if(player.dread>1){x.fillStyle=`rgba(130,35,28,${.05*player.dread})`;x.fillRect(0,0,w,h);}
+// figures only when dread rises
+if(player.dread>=2){x.fillStyle='#050505';x.fillRect(30,58,5,28);x.fillRect(31,54,3,5);x.fillRect(27,62,11,2);}
+if(player.dread>=4){x.fillStyle='#050505';x.fillRect(125,50,6,36);x.fillRect(126,45,4,7);}
+// scan specks
+for(let i=0;i<28;i++)px((seed+i*29)%w,(i*47+seed)%h,i%4?'#20221c':'#4c4d44');
+}
+function beep(freq,duration){if(!sound)return;audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sawtooth';o.frequency.value=freq;g.gain.setValueAtTime(.025,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}
+window.addEventListener('keydown',e=>{if(game!=='play')return;const n=parseInt(e.key);if(n>=1&&n<=4){const bs=$('#choices').querySelectorAll('button');bs[n-1]?.click()}if(['ArrowUp','w','W'].includes(e.key))move(0,-1);if(['ArrowRight','d','D'].includes(e.key))move(1,0);if(['ArrowDown','s','S'].includes(e.key))move(0,1);if(['ArrowLeft','a','A'].includes(e.key))move(-1,0);});
+$('#restart').onclick=newGame;$('#sound').onclick=e=>{sound=!sound;e.target.textContent='SOUND: '+(sound?'ON':'OFF');if(sound)beep(220,.05)};newGame();
+</script>
+</body>
+</html>

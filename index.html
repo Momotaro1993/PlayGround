@@ -23,7 +23,12 @@
     .story { padding:22px 20px 18px; min-height:170px; }
     .eyebrow { color:var(--blood); font-size:10px; letter-spacing:4px; margin-bottom:11px; }
     #text { line-height:1.65; font-size:14px; min-height:72px; }
-    #choices { display:grid; gap:8px; padding:0 20px 20px; }
+    #choices { display:grid; gap:8px; padding:0 20px 12px; }
+    .command { display:flex; gap:8px; padding:0 20px 20px; }
+    .command label { color:var(--blood); padding:10px 0; }
+    #commandInput { width:100%; min-width:0; border:1px solid #42463b; background:#0e100d; color:var(--ink); font:14px "Courier New",monospace; padding:10px 12px; outline:none; }
+    #commandInput:focus { border-color:#77796b; }
+    #commandSubmit { border:1px solid #42463b; background:#161812; color:var(--ink); font:11px "Courier New",monospace; padding:0 11px; cursor:pointer; }
     .choice { appearance:none;border:1px solid #42463b;background:#161812;color:var(--ink);font:14px "Courier New",monospace;text-align:left;padding:12px 12px;cursor:pointer;transition:.12s; }
     .choice:hover,.choice:focus { background:#25281f;border-color:#77796b;outline:none;transform:translateX(3px); }
     .choice .num { color:var(--blood); margin-right:10px; }
@@ -53,6 +58,11 @@
     <div class="status"><div class="tag">SANITY <b id="sanity">100</b></div><div class="tag">TORCH <b id="torch">12</b></div><div class="tag">NIGHT <b id="night">1</b></div></div>
     <div class="story"><div class="eyebrow" id="eyebrow">YOU WAKE</div><div id="text"></div></div>
     <div id="choices"></div>
+    <form class="command" id="commandForm" autocomplete="off">
+      <label for="commandInput">&gt;</label>
+      <input id="commandInput" type="text" maxlength="40" placeholder="type a command..." aria-label="Game command" />
+      <button id="commandSubmit" type="submit">ENTER</button>
+    </form>
   </main>
   <aside class="right">
     <h1 class="title">THE LAST FLOOR</h1><div class="subtitle">A PROCEDURAL DESCENT</div>
@@ -95,7 +105,21 @@ if(player.dread>=4){x.fillStyle='#050505';x.fillRect(125,50,6,36);x.fillRect(126
 for(let i=0;i<28;i++)px((seed+i*29)%w,(i*47+seed)%h,i%4?'#20221c':'#4c4d44');
 }
 function beep(freq,duration){if(!sound)return;audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sawtooth';o.frequency.value=freq;g.gain.setValueAtTime(.025,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}
-window.addEventListener('keydown',e=>{if(game!=='play')return;const n=parseInt(e.key);if(n>=1&&n<=4){const bs=$('#choices').querySelectorAll('button');bs[n-1]?.click()}if(['ArrowUp','w','W'].includes(e.key))move(0,-1);if(['ArrowRight','d','D'].includes(e.key))move(1,0);if(['ArrowDown','s','S'].includes(e.key))move(0,1);if(['ArrowLeft','a','A'].includes(e.key))move(-1,0);});
+function runCommand(raw){
+  if(game!=='play') { describe('THE FLOOR IS QUIET','Start a new descent when you are ready.'); return; }
+  const cmd=raw.trim().toLowerCase().replace(/[^a-z0-9 ]/g,'');
+  if(!cmd){describe('NO COMMAND','The darkness awaits your words.');return;}
+  if(/^(n|north|go north|walk north|move north)$/.test(cmd)) return move(0,-1);
+  if(/^(e|east|go east|walk east|move east)$/.test(cmd)) return move(1,0);
+  if(/^(s|south|go south|walk south|move south)$/.test(cmd)) return move(0,1);
+  if(/^(w|west|go west|walk west|move west)$/.test(cmd)) return move(-1,0);
+  if(/^(search|look|inspect|examine)$/.test(cmd)) return search();
+  if(/^(inventory|inv|items|pockets)$/.test(cmd)){describe('YOUR POCKETS',player.items.length?player.items.join(', ')+'.':'Only dust and an old pulse.');return choices([{label:'Keep moving',go:()=>afterMove(false)}]);}
+  if(/^(help|commands|\?|hint)$/.test(cmd)){describe('AVAILABLE COMMANDS','north · east · south · west · search · inventory');return choices([{label:'Continue',go:()=>afterMove(false)}]);}
+  describe('THE FLOOR DOES NOT UNDERSTAND','You say “'+raw.trim()+'” into the dark. It says nothing back.');choices([{label:'Try again',go:()=>afterMove(false)}]);
+}
+$('#commandForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#commandInput');runCommand(input.value);input.value='';input.focus();});
+window.addEventListener('keydown',e=>{if(document.activeElement===$('#commandInput'))return;if(game!=='play')return;const n=parseInt(e.key);if(n>=1&&n<=4){const bs=$('#choices').querySelectorAll('button');bs[n-1]?.click()}if(['ArrowUp','w','W'].includes(e.key))move(0,-1);if(['ArrowRight','d','D'].includes(e.key))move(1,0);if(['ArrowDown','s','S'].includes(e.key))move(0,1);if(['ArrowLeft','a','A'].includes(e.key))move(-1,0);});
 $('#restart').onclick=newGame;$('#sound').onclick=e=>{sound=!sound;e.target.textContent='SOUND: '+(sound?'ON':'OFF');if(sound)beep(220,.05)};newGame();
 </script>
 </body>

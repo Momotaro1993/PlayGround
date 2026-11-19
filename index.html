@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Royal Checkers</title>
+  <style>
+    :root { --ink:#17202b; --cream:#f4ead7; --gold:#c8a15b; --red:#df6049; --green:#1f6656; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; font-family:Georgia,'Times New Roman',serif; color:var(--ink); background:#cbbda7; }
+    #app { position:relative; width:100vw; height:100vh; perspective:1100px; overflow:hidden; background:linear-gradient(135deg,#dfd1ba 0%,#b7a891 100%); }
+    #app::before { content:""; position:absolute; inset:-20%; background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.58),transparent 38%),repeating-linear-gradient(45deg,rgba(68,47,27,.025) 0 2px,transparent 2px 7px); }
+    .brand { position:absolute; z-index:5; top:24px; left:34px; display:flex; align-items:center; gap:12px; }
+    .brand-mark { width:43px;height:43px;border-radius:50%;border:2px solid #26372f;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px #0002;transform:rotate(-7deg);background:#f7f0df; }
+    .brand-text { font-size:13px; letter-spacing:.23em; line-height:1.15; text-transform:uppercase; }
+    .brand-text strong { display:block;font-size:18px;letter-spacing:.12em;color:#1e5a4a; }
+    .game-wrap { position:absolute; z-index:2; width:min(74vw,760px); height:min(74vw,760px); left:50%; top:53%; transform:translate(-50%,-50%) rotateX(8deg) rotateZ(-1deg); transition:.35s; }
+    .board { position:absolute; inset:5.5%; display:grid; grid-template-columns:repeat(8,1fr); grid-template-rows:repeat(8,1fr); border:18px solid #8e6040; box-shadow:0 22px 32px rgba(50,36,24,.38),0 5px 0 #5d3d29,inset 0 0 0 2px #b88a61; transform-style:preserve-3d; background:#d7c5a6; }
+    .board::after { content:"";position:absolute;inset:-28px;border:4px solid #d8b98e;pointer-events:none;box-shadow:inset 0 0 0 1px #70472f; }
+    .square { position:relative; display:grid; place-items:center; border:0; padding:0; font:inherit; }
+    .square.light { background:#e8dac1; }
+    .square.dark { background:#5e806d; }
+    .square.selected { box-shadow:inset 0 0 0 5px #f2d675, inset 0 0 18px #ffe99e; }
+    .square.move { cursor:pointer; }
+    .square.move::after { content:""; width:24%; height:24%; border-radius:50%; background:rgba(255,240,153,.92); box-shadow:0 0 12px #fff1a2; }
+    .piece { position:absolute; z-index:3; width:76%; height:76%; border-radius:50%; display:grid; place-items:center; cursor:pointer; transform:translateZ(18px); transition:transform .18s, left .18s, top .18s; box-shadow:0 8px 8px rgba(25,29,26,.38),inset 0 0 0 7px rgba(255,255,255,.12),inset 0 -8px 0 rgba(0,0,0,.12); }
+    .piece.red { background:radial-gradient(circle at 38% 28%,#ff9178 0 8%,#df6049 9% 58%,#b84031 59% 72%,#7b3028 73%); border:2px solid #8c372d; }
+    .piece.cream { background:radial-gradient(circle at 38% 28%,#fffbed 0 8%,#eadcc1 9% 58%,#c9b894 59% 72%,#987e58 73%); border:2px solid #9b8764; }
+    .piece::before { content:""; position:absolute; inset:17%; border:2px solid rgba(255,255,255,.48); border-radius:50%; box-shadow:inset 0 0 0 3px rgba(0,0,0,.09); }
+    .piece.king::after { content:"♛"; position:absolute; z-index:2; color:#f2ca63; text-shadow:0 2px 2px #3e2a10;font-size:clamp(24px,3vw,42px); }
+    .piece.selected { filter:brightness(1.12); transform:translateZ(25px) scale(1.06); }
+    .side-panel { position:absolute; z-index:6; right:34px; top:50%; transform:translateY(-50%); width:180px; }
+    .turn-card { background:rgba(246,238,219,.92); border:1px solid #9d927a; box-shadow:0 10px 24px #51412e22; padding:17px 16px 14px; text-align:center; }
+    .eyebrow { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:#7b735f; }
+    .turn-name { margin-top:7px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:20px; }
+    .turn-dot { width:14px;height:14px;border-radius:50%;background:#df6049;border:1px solid #963d31;box-shadow:0 2px 3px #0003; }
+    .turn-dot.cream { background:#eadcc1;border-color:#9b8764; }
+    .score { display:grid;grid-template-columns:1fr 1fr;margin-top:10px;border-top:1px solid #bdb19a;padding-top:10px; }
+    .score div + div { border-left:1px solid #bdb19a; }
+    .score b { display:block;font-size:21px; }
+    .score span { font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#777060; }
+    .actions { display:grid; gap:8px; margin-top:10px; }
+    button.control { height:43px;border:1px solid #7d735e;background:#ede3cd;color:#27372f;font-family:inherit;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 10px #0001; }
+    button.control.primary { background:#245848;color:white;border-color:#183e34; }
+    button.control:hover { filter:brightness(1.05);transform:translateY(-1px); }
+    .caption { position:absolute; z-index:5; bottom:24px; left:34px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#665f50; }
+    .toast { position:absolute;z-index:20;left:50%;top:18%;transform:translate(-50%,-20px);background:#1e5143;color:#fff;padding:12px 18px;border-radius:3px;box-shadow:0 8px 20px #0003;font-size:14px;opacity:0;transition:.25s;pointer-events:none; }
+    .toast.show { opacity:1;transform:translate(-50%,0); }
+    @media (max-width:900px) { .game-wrap { width:min(84vw,620px); height:min(84vw,620px); top:48%; } .side-panel { right:16px; width:150px; } .brand { left:18px;top:16px; } }
+    @media (max-width:700px) { body { overflow:hidden; } .game-wrap { width:94vw;height:94vw;top:43%;transform:translate(-50%,-50%) rotateX(5deg); } .board { border-width:9px; } .board::after { inset:-16px; } .brand { top:10px; } .brand-mark {width:34px;height:34px;font-size:18px}.brand-text{font-size:9px}.brand-text strong{font-size:14px} .side-panel { left:50%;right:auto;top:auto;bottom:12px;transform:translateX(-50%);width:min(92vw,500px);display:grid;grid-template-columns:1fr 1fr;gap:8px; }.turn-card{padding:8px}.turn-name{font-size:15px;margin-top:3px}.score{display:none}.actions{margin:0;grid-template-columns:1fr 1fr}.actions button{height:52px;font-size:11px}.caption{display:none}.piece.king::after{font-size:clamp(18px,7vw,32px)} }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <div class="brand"><div class="brand-mark">♚</div><div class="brand-text">The <strong>Royal Game</strong></div></div>
+    <div class="game-wrap"><div id="board" class="board" aria-label="Checkers board"></div></div>
+    <aside class="side-panel">
+      <div class="turn-card"><div class="eyebrow">Current Turn</div><div class="turn-name"><span id="turnDot" class="turn-dot"></span><span id="turnName">Crimson</span></div><div class="score"><div><b id="redScore">12</b><span>Crimson</span></div><div><b id="creamScore">12</b><span>Ivory</span></div></div></div>
+      <div class="actions"><button id="undo" class="control">Undo</button><button id="newGame" class="control primary">New Game</button></div>
+    </aside>
+    <div class="caption">English draughts · 8 × 8</div>
+    <div id="toast" class="toast"></div>
+  </main>
+<script>
+const boardEl=document.getElementById('board'), turnName=document.getElementById('turnName'), turnDot=document.getElementById('turnDot');
+let board,turn,selected,history=[];
+function start(){board=Array.from({length:8},()=>Array(8).fill(null));for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2===1){if(r<3)board[r][c]={color:'cream',king:false};if(r>4)board[r][c]={color:'red',king:false};}turn='red';selected=null;history=[];render();}
+function pieceLabel(p){return p?`${p.king?'king ':''}${p.color}`:''}
+function render(){boardEl.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){const sq=document.createElement('button');sq.className=`square ${(r+c)%2?'dark':'light'}`;sq.setAttribute('aria-label',`row ${r+1}, column ${c+1}${board[r][c]?`, ${pieceLabel(board[r][c])}`:''}`);sq.dataset.r=r;sq.dataset.c=c;if(selected&&selected.r===r&&selected.c===c)sq.classList.add('selected');const moves=selected?getMoves(selected.r,selected.c,true):[];if(moves.some(m=>m.r===r&&m.c===c))sq.classList.add('move');sq.onclick=()=>clickSquare(r,c);const p=board[r][c];if(p){const el=document.createElement('div');el.className=`piece ${p.color}${p.king?' king':''}${selected&&selected.r===r&&selected.c===c?' selected':''}`;el.title=p.king?'King':'Piece';sq.appendChild(el);}boardEl.appendChild(sq);}turnName.textContent=turn==='red'?'Crimson':'Ivory';turnDot.className=`turn-dot ${turn==='cream'?'cream':''}`;const red=board.flat().filter(p=>p?.color==='red').length,cream=board.flat().filter(p=>p?.color==='cream').length;document.getElementById('redScore').textContent=red;document.getElementById('creamScore').textContent=cream;}
+function inside(r,c){return r>=0&&r<8&&c>=0&&c<8}
+function getMoves(r,c,all=false){const p=board[r][c];if(!p)return[];let out=[],dirs=p.king?[[-1,-1],[-1,1],[1,-1],[1,1]]:(p.color==='red'?[[-1,-1],[-1,1]]:[[1,-1],[1,1]]);for(const[dr,dc]of dirs){for(let step=1;step<=(p.king?7:2);step++){const rr=r+dr*step,cc=c+dc*step;if(!inside(rr,cc))break;if(step===1&&!all){if(!board[rr][cc])out.push({r:rr,c:cc,jump:false});else break;}else if(all){if(!board[rr][cc]){if(p.king)out.push({r:rr,c:cc,jump:false,route:[[r,c],[rr,cc]]});else out.push({r:rr,c:cc,jump:false});}else break;}}}
+// simple moves and captures; kings use any king-capture length
+if(p.king){for(const [dr,dc] of dirs){let rr=r+dr,cc=c+dc;while(inside(rr,cc)&&!board[rr][cc]){rr+=dr;cc+=dc;}if(inside(rr,cc)&&board[rr][cc].color!==p.color){const jr=rr+dr,jc=cc+dc;if(inside(jr,jc)&&!board[jr][jc])out.push({r:jr,c:jc,jump:true,captured:{r:rr,c:cc}});}}}else{for(const [dr,dc]of dirs){const mr=r+dr,mc=c+dc,jr=r+dr*2,jc=c+dc*2;if(inside(jr,jc)&&board[mr]?.[mc]&&board[mr][mc].color!==p.color&&!board[jr][jc])out.push({r:jr,c:jc,jump:true,captured:{r:mr,c:mc}});}}
+return out;
+}
+function anyCapture(color){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c]?.color===color&&getMoves(r,c,true).some(m=>m.jump))return true;return false}
+function legalMoves(r,c){const all=getMoves(r,c,true);const capture=anyCapture(board[r][c].color);return capture?all.filter(m=>m.jump):all.filter(m=>!m.jump)}
+function snapshot(){history.push(JSON.stringify({board,turn,selected}));}
+function clickSquare(r,c){const p=board[r][c];if(selected){const move=legalMoves(selected.r,selected.c).find(m=>m.r===r&&m.c===c);if(move){snapshot();const moving=board[selected.r][selected.c];board[r][c]=moving;board[selected.r][selected.c]=null;if(move.jump)board[move.captured.r][move.captured.c]=null;if((moving.color==='red'&&r===0)||(moving.color==='cream'&&r===7)){moving.king=true;toast(moving.color==='red'?'Crimson crowned!':'Ivory crowned!');}
+const again=move.jump&&legalMoves(r,c).some(m=>m.jump&&!move.jump?false:m.jump);if(!again){turn=turn==='red'?'cream':'red';selected=null;}else{selected={r,c};toast('Capture again');}render();checkEnd();return;}}
+if(p&&p.color===turn){selected={r,c};render();}else if(!selected){selected=null;render();}}
+function toast(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('show');clearTimeout(el.timer);el.timer=setTimeout(()=>el.classList.remove('show'),1400);}
+function checkEnd(){const red=board.flat().some(p=>p?.color==='red'),cream=board.flat().some(p=>p?.color==='cream');if(!red||!cream){toast(!red?'Ivory wins!':'Crimson wins!');return;}let can=false;for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c]?.color===turn&&legalMoves(r,c).length)can=true;if(!can){toast((turn==='red'?'Ivory':'Crimson')+' wins!');}}
+document.getElementById('newGame').onclick=start;
+document.getElementById('undo').onclick=()=>{if(!history.length){toast('Nothing to undo');return;}const s=JSON.parse(history.pop());board=s.board;turn=s.turn;selected=s.selected;render();};
+start();
+</script>
+</body>
+</html>

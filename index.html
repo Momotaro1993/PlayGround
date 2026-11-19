@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pocket Pals</title>
+  <style>
+    :root { --ink:#263238; --cream:#fffaf1; --peach:#ffb29e; --mint:#9edbc3; --sun:#ffd66b; --blue:#9ed5ec; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:"Trebuchet MS",system-ui,sans-serif; color:var(--ink); background:#efe8d9; overflow-x:hidden; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    .app { min-height:100vh; display:grid; grid-template-columns: 250px minmax(480px,1fr) 270px; }
+    .left,.right { background:#fff9ed; padding:22px 18px; z-index:3; }
+    .left { border-right:2px solid #dfd5c2; }
+    .right { border-left:2px solid #dfd5c2; }
+    .brand { display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+    .brand-mark { width:44px;height:44px;border-radius:50%;background:#ffd36a;display:grid;place-items:center;font-size:25px;box-shadow:inset 0 -4px #edb84e; }
+    .brand h1 { margin:0;font-size:20px;line-height:.95; }
+    .brand h1 span { color:#ea7d64; }
+    .pet-tabs { display:grid; gap:8px; }
+    .pet-tab { border:0;border-radius:14px;background:transparent;padding:8px;display:flex;align-items:center;gap:10px;text-align:left; }
+    .pet-tab.active { background:#eaf5e9; box-shadow:inset 0 0 0 2px #bdd9b4; }
+    .mini-pet { width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:#fff;box-shadow:0 3px 0 #ddd3bd; }
+    .pet-tab small { display:block;color:#7e8078;margin-top:2px; }
+    .adopt { margin-top:12px;width:100%;border:2px dashed #cbbfA6;border-radius:14px;padding:10px;background:transparent;font-weight:800;color:#777568; }
+    .stage { position:relative; min-height:100vh; overflow:hidden; background:linear-gradient(#abdbe7 0 55%,#90cfae 55% 57%,#c9aa82 57%); }
+    .stage::before { content:"";position:absolute;left:0;right:0;bottom:43%;height:46%;background:linear-gradient(90deg,transparent 49.5%,rgba(255,255,255,.12) 50%,transparent 50.5%),linear-gradient(rgba(255,255,255,.12) 49.5%,transparent 50.5%);background-size:80px 80px;opacity:.7; }
+    .topbar { position:relative;height:74px;padding:14px 20px;display:flex;justify-content:space-between;align-items:flex-start;z-index:2; }
+    .room-name { background:rgba(255,250,241,.92);border-radius:20px;padding:8px 14px;font-weight:900;box-shadow:0 4px 14px #799a8340; }
+    .coins { background:#fff7d5;border:2px solid #ebcc6c;border-radius:16px;padding:7px 12px;font-weight:900; }
+    .room { position:absolute;inset:74px 0 0;display:grid;place-items:center; }
+    .window { position:absolute;right:8%;top:4%;width:150px;height:105px;border:10px solid #fff7e8;border-radius:24px;background:linear-gradient(#78c5df 65%,#75b88d 65%);box-shadow:0 5px 0 #dccdaf; }
+    .window:before { content:"☁";position:absolute;top:-20px;left:20px;font-size:35px;color:white; }
+    .shelf { position:absolute;left:7%;top:12%;width:170px;height:10px;background:#af7a50;border-radius:5px;box-shadow:0 6px 0 #80583c; }
+    .toy { position:absolute;font-size:28px;top:-28px; }
+    .toy.one { left:18px }.toy.two { left:70px }.toy.three { left:125px }
+    .rug { position:absolute;bottom:8%;width:390px;height:120px;border-radius:50%;background:#f7d99d;box-shadow:0 10px 0 #bba071; }
+    .rug:after { content:"";position:absolute;inset:22px 55px;border-radius:50%;border:3px dashed #e5b96f; }
+    .pet-wrap { position:absolute;bottom:17%;z-index:4;width:230px;text-align:center;animation:breathe 2.4s ease-in-out infinite; }
+    @keyframes breathe { 50% { transform:translateY(-5px) } }
+    .pet { width:210px;height:190px;position:relative;margin:auto;filter:drop-shadow(0 12px 8px rgba(74,94,79,.22)); }
+    .body { position:absolute;width:150px;height:130px;border-radius:48% 48% 42% 42%;left:30px;bottom:8px;background:var(--fur);border:5px solid rgba(70,70,60,.12); }
+    .head { position:absolute;width:145px;height:125px;border-radius:48%;left:32px;top:8px;background:var(--fur);border:5px solid rgba(70,70,60,.12);z-index:2; }
+    .ear { position:absolute;width:58px;height:65px;background:var(--fur);top:-20px;z-index:-1;border:5px solid rgba(70,70,60,.12); }
+    .ear.left { left:-5px;border-radius:80% 20% 65% 35%;transform:rotate(-16deg) }.ear.right { right:-5px;border-radius:20% 80% 35% 65%;transform:rotate(16deg) }
+    .eye { position:absolute;width:14px;height:18px;background:#30353a;border-radius:50%;top:51px; }.eye.left { left:36px }.eye.right { right:36px }
+    .eye:after { content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:white;left:3px;top:3px; }
+    .muzzle { position:absolute;width:64px;height:45px;border-radius:48%;background:#fff4df;left:38px;top:68px; }.nose { position:absolute;width:13px;height:9px;border-radius:50%;background:#6d4b48;left:25px;top:9px; }.mouth { position:absolute;width:18px;height:12px;border-bottom:3px solid #6d4b48;border-radius:50%;left:23px;top:19px; }
+    .cheek { position:absolute;width:25px;height:12px;border-radius:50%;background:#f59a99;opacity:.7;top:66px }.cheek.left { left:10px }.cheek.right { right:10px }
+    .belly { position:absolute;width:86px;height:75px;border-radius:50%;background:#fff3dc;left:32px;bottom:6px; }
+    .paw { position:absolute;width:48px;height:25px;border-radius:50%;background:var(--fur);bottom:-5px;border:4px solid rgba(70,70,60,.12); }.paw.left{left:16px}.paw.right{right:16px}
+    .nameplate { margin-top:-5px;display:inline-block;background:#fffaf1;border:2px solid #d3c7ad;border-radius:16px;padding:5px 14px;font-weight:900;box-shadow:0 4px 0 #cbbfA6; }
+    .speech { position:absolute;left:50%;top:-56px;transform:translateX(-50%) scale(0);background:white;border-radius:18px;padding:8px 13px;font-weight:900;white-space:nowrap;box-shadow:0 5px 14px #5f765c33;transition:.25s; }
+    .speech.show { transform:translateX(-50%) scale(1); }
+    .speech:after { content:"";position:absolute;bottom:-7px;left:50%;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid white; }
+    .pet-row { display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:9px;margin:11px 0; }
+    .pet-row label { font-weight:900;font-size:13px; }.pet-row strong { font-size:12px; }
+    .meter { height:13px;border-radius:10px;background:#dfd8ca;overflow:hidden; }.fill { height:100%;border-radius:10px;transition:.4s; }
+    .hunger .fill { background:#f4a37d }.happy .fill { background:#78bda0 }.clean .fill { background:#79bbdf }.energy .fill { background:#f1c95b }
+    .section-title { font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#999184;margin:22px 0 8px; }
+    .actions { display:grid;grid-template-columns:1fr 1fr;gap:9px; }
+    .action { border:0;border-radius:15px;background:#f2eadb;padding:13px 5px;font-weight:900;box-shadow:0 4px 0 #d9cbb4;transition:.12s; }
+    .action:active { transform:translateY(3px);box-shadow:0 1px 0 #d9cbb4; }.action span { display:block;font-size:24px;margin-bottom:3px; }
+    .custom { display:grid;grid-template-columns:repeat(3,1fr);gap:7px; }.swatch { height:42px;border:3px solid white;border-radius:12px;box-shadow:0 2px 7px #b7ac962e; }.swatch.active { outline:3px solid #596e65; }
+    .toast { position:fixed;left:50%;bottom:24px;z-index:20;transform:translate(-50%,120px);background:#263238;color:white;border-radius:20px;padding:11px 18px;font-weight:900;transition:.35s; }.toast.show { transform:translate(-50%,0); }
+    .modal { position:fixed;inset:0;background:#31474366;z-index:30;display:none;place-items:center;padding:20px;backdrop-filter:blur(5px); }.modal.open { display:grid; }
+    .modal-card { width:min(520px,100%);background:#fffaf1;border-radius:24px;padding:22px;box-shadow:0 20px 60px #26323855; }
+    .modal-card h2 { margin:0 0 14px }.adopt-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px; }.adopt-card { border:2px solid #e1d7c3;border-radius:16px;background:white;padding:10px;text-align:center; }.adopt-card .mini-pet { margin:auto }.adopt-card button { margin-top:8px;border:0;border-radius:10px;background:#79bda3;padding:8px 12px;color:white;font-weight:900;width:100%; }
+    @media(max-width:900px){ .app{grid-template-columns:190px minmax(400px,1fr) 220px}.left,.right{padding:16px 12px}.window{right:3%}.shelf{left:3%} }
+    @media(max-width:700px){ body{overflow:auto}.app{display:flex;flex-direction:column}.stage{height:590px;min-height:590px;order:1}.left{order:0;border:0;border-bottom:2px solid #dfd5c2;padding:10px}.right{order:2;border:0;border-top:2px solid #dfd5c2}.brand{display:none}.pet-tabs{display:flex;overflow-x:auto}.pet-tab{min-width:150px}.right{display:grid;grid-template-columns:1fr 1fr;gap:12px}.right .section-title{margin-top:0}.stats{grid-column:1}.actions-section{grid-column:2}.custom-section{grid-column:1/-1}.room{inset:62px 0 0}.topbar{height:62px}.rug{width:300px}.window{width:110px;height:80px}.shelf{width:130px}.adopt-grid{grid-template-columns:1fr 1fr}.modal-card{max-height:90vh;overflow:auto} }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="left">
+    <div class="brand"><div class="brand-mark">🐾</div><h1>Pocket<br><span>Pals</span></h1></div>
+    <div class="pet-tabs" id="petTabs"></div>
+    <button class="adopt" id="openAdopt">＋ Adopt a pal</button>
+  </aside>
+  <main class="stage">
+    <div class="topbar"><div class="room-name" id="roomName">Sunny Room</div><div class="coins">● <span id="coins">120</span></div></div>
+    <div class="room">
+      <div class="window"></div><div class="shelf"><span class="toy one">📚</span><span class="toy two">🪴</span><span class="toy three">🧸</span></div><div class="rug"></div>
+      <div class="pet-wrap"><div class="speech" id="speech">Hi!</div><div class="pet" id="pet" style="--fur:#e6a66b"><div class="ear left"></div><div class="ear right"></div><div class="body"><div class="belly"></div><div class="paw left"></div><div class="paw right"></div></div><div class="head"><div class="eye left"></div><div class="eye right"></div><div class="cheek left"></div><div class="cheek right"></div><div class="muzzle"><div class="nose"></div><div class="mouth"></div></div></div></div><div class="nameplate" id="nameplate">Biscuit</div></div>
+    </div>
+  </main>
+  <aside class="right">
+    <div class="stats"><div class="section-title">Today’s mood</div><div id="stats"></div></div>
+    <div class="actions-section"><div class="section-title">Care time</div><div class="actions"><button class="action" data-action="feed"><span>🥕</span>Feed</button><button class="action" data-action="play"><span>🧶</span>Play</button><button class="action" data-action="wash"><span>🫧</span>Wash</button><button class="action" data-action="sleep"><span>🌙</span>Sleep</button></div></div>
+    <div class="custom-section"><div class="section-title">Room color</div><div class="custom"><button class="swatch active" data-color="#c9aa82" style="background:#c9aa82"></button><button class="swatch" data-color="#a9c8a2" style="background:#a9c8a2"></button><button class="swatch" data-color="#d7abc2" style="background:#d7abc2"></button></div></div>
+  </aside>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="modal-card"><h2>Choose a new pocket pal</h2><div class="adopt-grid" id="adoptGrid"></div></div></div>
+<script>
+const species=[
+ {name:'Biscuit',emoji:'🐶',fur:'#e6a66b',kind:'Puppy'},
+ {name:'Mochi',emoji:'🐱',fur:'#b7bac0',kind:'Kitten'},
+ {name:'Pebble',emoji:'🐰',fur:'#ddd0bc',kind:'Bunny'},
+ {name:'Sunny',emoji:'🐭',fur:'#a3c8c2',kind:'Mouse'},
+ {name:'Clover',emoji:'🐸',fur:'#86bd76',kind:'Frog'}
+];
+let pets=JSON.parse(localStorage.getItem('pocketPals')||'null')||species.slice(0,3).map((p,i)=>({...p,stats:{hunger:82-i*8,happy:76+i*4,clean:88-i*5,energy:68+i*7}}));
+let active=0, coins=+(localStorage.getItem('pocketCoins')||120);
+function save(){localStorage.setItem('pocketPals',JSON.stringify(pets));localStorage.setItem('pocketCoins',coins)}
+function renderTabs(){document.getElementById('petTabs').innerHTML=pets.map((p,i)=>`<button class="pet-tab ${i===active?'active':''}" data-index="${i}"><div class="mini-pet">${p.emoji}</div><div><strong>${p.name}</strong><small>${p.kind}</small></div></button>`).join('');}
+function render(){let p=pets[active];document.getElementById('pet').style.setProperty('--fur',p.fur);document.getElementById('nameplate').textContent=p.name;document.getElementById('coins').textContent=coins;
+ const labels={hunger:['Hungry','🥕'],happy:['Happy','♥'],clean:['Clean','✦'],energy:['Energy','⚡']};
+ document.getElementById('stats').innerHTML=Object.entries(p.stats).map(([k,v])=>`<div class="pet-row ${k}"><label>${labels[k][1]} ${labels[k][0]}</label><div class="meter"><div class="fill" style="width:${v}%"></div></div><strong>${v}%</strong></div>`).join('');renderTabs();}
+function say(text){const s=document.getElementById('speech');s.textContent=text;s.classList.add('show');clearTimeout(say.timer);say.timer=setTimeout(()=>s.classList.remove('show'),1600)}
+function toast(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),1400)}
+document.getElementById('petTabs').addEventListener('click',e=>{const b=e.target.closest('[data-index]');if(b){active=+b.dataset.index;render();say('Hi, friend!')}});
+const gains={feed:['hunger',18,'Yum!'],play:['happy',15,'So fun!'],wash:['clean',20,'Sparkly clean!'],sleep:['energy',20,'Zzz…']};
+document.querySelector('.actions').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const [stat,amount,text]=gains[b.dataset.action];let p=pets[active];p.stats[stat]=Math.min(100,p.stats[stat]+amount);coins+=5;save();render();say(text);toast(`+5 coins  •  ${stat} improved`) });
+document.querySelector('.custom').addEventListener('click',e=>{const b=e.target.closest('[data-color]');if(!b)return;document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('.stage').style.background=`linear-gradient(#abdbe7 0 55%,#90cfae 55% 57%,${b.dataset.color} 57%)`;document.getElementById('roomName').textContent=['Sunny Room','Garden Room','Berry Room'][[...document.querySelectorAll('.swatch')].indexOf(b)]});
+function openAdopt(){let used=new Set(pets.map(p=>p.name));document.getElementById('adoptGrid').innerHTML=species.filter(p=>!used.has(p.name)).map(p=>`<div class="adopt-card"><div class="mini-pet">${p.emoji}</div><strong>${p.name}</strong><br><small>${p.kind}</small><button data-adopt="${p.name}" ${coins<50?'disabled':''}>50 ●</button></div>`).join('')||'<p>All pals are already home!</p>';document.getElementById('modal').classList.add('open')}
+document.getElementById('openAdopt').onclick=openAdopt;document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')e.target.classList.remove('open')};
+document.getElementById('adoptGrid').addEventListener('click',e=>{const b=e.target.closest('[data-adopt]');if(!b||coins<50)return;let p={...species.find(x=>x.name===b.dataset.adopt),stats:{hunger:80,happy:80,clean:80,energy:80}};coins-=50;pets.push(p);active=pets.length-1;save();render();document.getElementById('modal').classList.remove('open');say('A forever friend!');toast('New pal adopted!')});
+setInterval(()=>{pets.forEach(p=>{for(let k in p.stats)p.stats[k]=Math.max(0,p.stats[k]-1)});save();render()},30000);
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#d58b51" />
+  <title>Dust &amp; Saddle — Wild West Horse Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rye&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="game">
+    <canvas id="world" aria-label="A 3D desert horse ranch"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Dust and Saddle home"><span class="brand-mark">✦</span><span>DUST <i>&amp;</i> SADDLE<small>WILD WEST HORSE LIFE</small></span></a>
+      <div class="top-right">
+        <div class="weather"><span class="sun-icon">☀</span><span><b>GOLDEN HOUR</b><small>Dry Creek Ranch · 78°</small></span></div>
+        <button id="soundBtn" class="sound-button" aria-label="Turn music on" title="Toggle music"><span>♫</span></button>
+        <button id="helpBtn" class="icon-button" aria-label="How to play" title="How to play">?</button>
+      </div>
+    </header>
+
+    <section class="left-panel glass">
+      <div class="eyebrow"><span class="live-dot"></span> YOUR COMPANION</div>
+      <div class="horse-heading"><div><h1 id="horseName">Cinder</h1><p id="horseBreed">MUSTANG <span>·</span> 4 YEARS</p></div><div class="level-badge">LVL <b id="level">01</b></div></div>
+      <div class="horse-art"><div class="horse-glow"></div><span class="horse-emoji" id="horseEmoji">🐎</span><span class="horse-caption">YOUR TRUSTY STEED</span></div>
+      <div class="stat-list">
+        <div class="stat-row"><span>❤️</span><div class="stat-info"><div><b>Bond</b><span id="bondText">72%</span></div><div class="meter"><i id="bondBar" style="width:72%"></i></div></div></div>
+        <div class="stat-row"><span>⚡</span><div class="stat-info"><div><b>Stamina</b><span id="staminaText">100%</span></div><div class="meter stamina"><i id="staminaBar" style="width:100%"></i></div></div></div>
+        <div class="stat-row"><span>✦</span><div class="stat-info"><div><b>Spirit</b><span id="spiritText">84%</span></div><div class="meter spirit"><i id="spiritBar" style="width:84%"></i></div></div></div>
+      </div>
+      <div class="horse-switch"><button id="prevHorse" aria-label="Previous horse">‹</button><span><i></i><i class="active"></i><i></i></span><button id="nextHorse" aria-label="Next horse">›</button></div>
+    </section>
+
+    <section class="quest-card glass" id="questCard">
+      <div class="quest-top"><span class="quest-icon">🏁</span><span class="eyebrow">TODAY'S CHALLENGE</span><button id="closeQuest" aria-label="Close challenge">×</button></div>
+      <h2 id="questTitle">Canyon Canter</h2>
+      <p id="questDesc">Ride through all 6 trail markers before the sun dips.</p>
+      <div class="quest-progress"><span id="gateLabel">TRAIL MARKERS</span><span id="gateCount">0 <i>/ 6</i></span></div>
+      <div class="quest-line"><i id="questBar"></i></div>
+      <div class="quest-footer"><span id="timerLabel">⏱ &nbsp;02:00</span><span class="reward">✦ 120</span></div>
+      <button class="primary-button" id="rideBtn"><span>START THE TRAIL</span><b>→</b></button>
+    </section>
+
+    <div class="world-label"><span class="compass">N</span><span id="locationLabel">DRY CREEK RANCH</span><i>•</i><span id="modeLabel">STABLE</span></div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <div class="mobile-pad" aria-label="Ride controls">
+      <button data-control="left" aria-label="Turn left">◀</button>
+      <button data-control="forward" class="up" aria-label="Ride forward">▲</button>
+      <button data-control="back" aria-label="Ride backward">▼</button>
+      <button data-control="right" aria-label="Turn right">▶</button>
+    </div>
+
+    <footer class="bottom-dock glass">
+      <div class="care-block"><div class="dock-title"><span>AT THE STABLE</span><small>CARE FOR YOUR COMPANION</small></div>
+        <button class="care-action" data-action="brush"><span class="action-icon brush">✧</span><span><b>Brush</b><small>+ bond</small></span></button>
+        <button class="care-action" data-action="feed"><span class="action-icon feed">♧</span><span><b>Feed</b><small>+ energy</small></span></button>
+        <button class="care-action" data-action="pet"><span class="action-icon pet">♡</span><span><b>Pet</b><small>+ spirit</small></span></button>
+      </div>
+      <div class="dock-divider"></div>
+      <div class="ride-block"><div class="dock-title"><span>THE OPEN RANGE</span><small>SADDLE UP &amp; EXPLORE</small></div>
+        <button class="ride-action" id="freeRideBtn"><span class="saddle-icon">↗</span><span><b>Free Ride</b><small>Explore the desert</small></span><span class="keycap">R</span></button>
+        <div class="ride-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>to ride</span></div>
+      </div>
+      <div class="coins"><span class="coin">✦</span><b id="coinCount">240</b><small>COINS</small></div>
+    </footer>
+
+    <div class="help-modal" id="helpModal" aria-hidden="true"><div class="help-box glass"><button id="helpClose" class="modal-close">×</button><span class="eyebrow">YOUR FRONTIER GUIDE</span><h2>Make the most of the range</h2><div class="help-grid"><div><b>🐎 &nbsp;Ride</b><p>Choose Free Ride or start the Canyon Canter. Steer with WASD or the on-screen arrows. Hold Shift to gallop.</p></div><div><b>♡ &nbsp;Care</b><p>Brush, feed, and pet your horse to build its bond and keep its spirit high.</p></div><div><b>✦ &nbsp;Discover</b><p>Ride through the golden trail markers to earn coins and level up your companion.</p></div><div><b>♫ &nbsp;Listen</b><p>Tap the music button to hear a little frontier tune. Sound effects play when you care for your horse.</p></div></div><button id="gotIt" class="primary-button"><span>LET'S RIDE</span><b>→</b></button></div></div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>

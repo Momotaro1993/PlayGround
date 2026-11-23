@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Dragon Snake</title>
+  <style>
+    :root { --ink:#171c24; --paper:#f4ebd3; --red:#bd3c31; --gold:#d9a83b; --jade:#63a66a; }
+    * { box-sizing:border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; }
+    body {
+      background:#26312d;
+      color:var(--ink);
+      font-family:"Courier New", monospace;
+      image-rendering:pixelated;
+      display:grid;
+      place-items:center;
+      touch-action:none;
+    }
+    body:before {
+      content:""; position:fixed; inset:0; pointer-events:none; opacity:.26;
+      background-image:
+        radial-gradient(circle at 20% 30%, #e6d5a4 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 60%, #b8c0a3 0 1px, transparent 2px);
+      background-size:24px 24px, 31px 31px;
+    }
+    .shell {
+      width:min(1080px, 100vw); height:min(720px, 100vh);
+      display:grid; grid-template-columns:220px 1fr 220px; grid-template-rows:86px 1fr 58px;
+      border:4px solid #101513; box-shadow:0 14px 0 #101513, 0 28px 70px #0a0d0a;
+      background:var(--paper); position:relative;
+    }
+    .header { grid-column:1/4; display:flex; align-items:center; justify-content:space-between; padding:0 24px;
+      border-bottom:4px solid var(--ink); background:#efe2bc;
+      background-image:linear-gradient(90deg,rgba(125,96,48,.08) 1px,transparent 1px),linear-gradient(rgba(125,96,48,.08) 1px,transparent 1px);
+      background-size:16px 16px;
+    }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .seal { width:46px;height:46px; background:var(--red); border:3px solid #741f1b; box-shadow:4px 4px 0 #c9b98e; display:grid;place-items:center;color:#f6dda6;font-size:28px;font-weight:bold; }
+    h1 { margin:0; font-family:Georgia,serif; font-size:30px; letter-spacing:3px; }
+    h1 span { color:var(--red); }
+    .pause { border:3px solid var(--ink); background:#d8c59a; width:44px;height:44px; cursor:pointer; font-size:20px;box-shadow:4px 4px 0 #9d9271; }
+    .left,.right { padding:18px 14px; border-right:4px solid var(--ink); background:#eadfc0; }
+    .right { border-right:0;border-left:4px solid var(--ink); }
+    .board-wrap { position:relative; background:#8aa064; min-height:0; display:grid; place-items:center; overflow:hidden; }
+    canvas { width:min(100%, 100vh); height:100%; display:block; image-rendering:pixelated; }
+    .label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#776a4c; margin:4px 0 8px; }
+    .score { font-family:Georgia,serif; font-size:44px; line-height:1; color:var(--red); text-shadow:2px 2px 0 #d0b66f; }
+    .stat { margin-bottom:22px; }
+    .divider { border:0;border-top:2px dashed #b3a57f;margin:14px 0; }
+    .items { display:flex; flex-direction:column; gap:10px; }
+    .item { display:flex; align-items:center; gap:9px; font-size:12px; font-weight:bold; }
+    .icon { width:28px;height:28px; display:grid;place-items:center;border:2px solid #5e6d43;background:#b9bd83;font-size:16px; }
+    .footer { grid-column:1/4; border-top:4px solid var(--ink); background:#efe2bc; display:flex; align-items:center; justify-content:center; gap:12px;font-size:11px;letter-spacing:1px; }
+    kbd { border:2px solid var(--ink); background:#f7efd9; min-width:28px;height:28px;display:inline-grid;place-items:center;box-shadow:2px 2px 0 #aaa07f; }
+    .overlay { position:absolute; inset:0; background:rgba(22,29,24,.72); display:grid; place-items:center; z-index:5; }
+    .overlay.hidden { display:none; }
+    .card { width:min(380px,82%); background:#f3e6c2; border:4px solid #151a16; padding:24px; text-align:center; box-shadow:8px 8px 0 #151a16; }
+    .card h2 { margin:0 0 8px;font-family:Georgia,serif;font-size:38px;color:var(--red); }
+    .card p { font-size:12px;line-height:1.7;margin:12px 0 18px; }
+    .start { border:3px solid #151a16; background:var(--red); color:#fff0c6; padding:13px 22px; font-family:"Courier New",monospace;font-weight:bold;letter-spacing:2px;cursor:pointer;box-shadow:5px 5px 0 #151a16; }
+    .touch { display:none; position:absolute; z-index:4; inset:auto 12px 12px 12px; justify-content:space-between; pointer-events:none; }
+    .dpad { width:150px;height:150px;position:relative;pointer-events:auto; }
+    .dpad button { position:absolute;width:48px;height:48px;border:3px solid #171c18;background:rgba(242,226,180,.88);font-size:20px;box-shadow:3px 3px 0 rgba(23,28,36,.5); }
+    .dpad .up{left:51px;top:0}.dpad .down{left:51px;bottom:0}.dpad .left{left:0;top:51px}.dpad .right{right:0;top:51px}
+    @media(max-width:760px),(max-height:620px) {
+      .shell { width:100vw;height:100vh;grid-template-columns:82px 1fr;grid-template-rows:64px 1fr 42px;border:0;box-shadow:none; }
+      .header { grid-column:1/3;padding:0 12px}.header h1{font-size:19px}.seal{width:38px;height:38px;font-size:22px}.pause{width:38px;height:38px}
+      .left { padding:10px 7px}.right{display:none}.left .stat{margin-bottom:12px}.score{font-size:29px}.divider,.items{display:none}.footer{grid-column:1/3;font-size:9px}.footer kbd{display:none}.label{font-size:8px}
+      .touch{display:flex}.card h2{font-size:32px}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="header">
+      <div class="brand"><div class="seal">龍</div><h1>DRAGON <span>SNAKE</span></h1></div>
+      <button class="pause" id="pauseBtn" aria-label="Pause">Ⅱ</button>
+    </header>
+    <aside class="left">
+      <div class="stat"><div class="label">Score</div><div class="score" id="score">000</div></div>
+      <hr class="divider">
+      <div class="stat"><div class="label">High Score</div><div class="score" id="high" style="font-size:25px;color:#4f6b50">000</div></div>
+    </aside>
+    <section class="board-wrap" id="boardWrap">
+      <canvas id="game"></canvas>
+      <div class="touch">
+        <div></div>
+        <div class="dpad">
+          <button class="up" data-dir="up">▲</button><button class="left" data-dir="left">◀</button>
+          <button class="right" data-dir="right">▶</button><button class="down" data-dir="down">▼</button>
+        </div>
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="card"><h2 id="overlayTitle">東方の龍</h2><p id="overlayText">Collect dumplings, avoid the stone walls,<br>and grow the dragon.</p><button class="start" id="startBtn">BEGIN JOURNEY</button></div>
+      </div>
+    </section>
+    <aside class="right">
+      <div class="label">Scattered Treasures</div>
+      <div class="items">
+        <div class="item"><span class="icon">餃</span><span>Dumpling<br>+10</span></div>
+        <div class="item"><span class="icon">桃</span><span>Peach<br>+30</span></div>
+      </div>
+    </aside>
+    <footer class="footer"><span>MOVE</span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>OR</span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></footer>
+  </main>
+<script>
+(() => {
+ const canvas=document.getElementById('game'), ctx=canvas.getContext('2d');
+ const wrap=document.getElementById('boardWrap'), overlay=document.getElementById('overlay'), startBtn=document.getElementById('startBtn');
+ const scoreEl=document.getElementById('score'), highEl=document.getElementById('high'), overlayTitle=document.getElementById('overlayTitle'), overlayText=document.getElementById('overlayText');
+ let cols=30, rows=24, size=20, snake, dir, nextDir, food, walls, score, high=+(localStorage.dragonHigh||0), running=false, paused=false, timer;
+ highEl.textContent=String(high).padStart(3,'0');
+ function resize(){
+   const r=wrap.getBoundingClientRect(); const targetW=Math.floor(r.width), targetH=Math.floor(r.height);
+   size=Math.max(10,Math.floor(Math.min(targetW/cols,targetH/rows)));
+   canvas.width=cols*size; canvas.height=rows*size; canvas.style.width=(cols*size)+'px'; canvas.style.height=(rows*size)+'px'; draw();
+ }
+ function reset(){
+   cols=30; rows=24; snake=[{x:15,y:12},{x:14,y:12},{x:13,y:12},{x:12,y:12}]; dir={x:1,y:0}; nextDir={x:1,y:0}; score=0; scoreEl.textContent='000';
+   walls=[]; for(let i=5;i<12;i++) walls.push({x:i,y:5}); for(let i=18;i<25;i++) walls.push({x:i,y:18});
+   for(let i=5;i<10;i++) walls.push({x:6,y:i}); for(let i=14;i<19;i++) walls.push({x:23,y:i});
+   placeFood(); draw();
+ }
+ function placeFood(){ do{food={x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows),type:Math.random()<.18?'桃':'餃'};}while(snake.some(p=>p.x===food.x&&p.y===food.y)||walls.some(p=>p.x===food.x&&p.y===food.y)); }
+ function pixelRect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x*size,y*size,w*size,h*size)}
+ function draw(){
+   if(!canvas.width)return;
+   ctx.fillStyle='#94a76c';ctx.fillRect(0,0,canvas.width,canvas.height);
+   ctx.fillStyle='#9da875'; for(let y=0;y<rows;y+=2)for(let x=(y%4?0:1);x<cols;x+=2)ctx.fillRect(x*size,y*size,size,size);
+   ctx.globalAlpha=.13;ctx.fillStyle='#42583d'; for(let y=0;y<rows;y+=5){ctx.fillRect(0,y*size,canvas.width,size/5)} ctx.globalAlpha=1;
+   walls.forEach(p=>{pixelRect(p.x,p.y,1,1,'#5f6251');ctx.fillStyle='#75765e';ctx.fillRect(p.x*size+3,p.y*size+3,size-6,size-6);ctx.fillStyle='#44483e';ctx.fillRect(p.x*size,p.y*size+size-3,size,3)});
+   ctx.font=`${Math.floor(size*.82)}px Georgia`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(food.type,food.x*size+size/2,food.y*size+size/2);
+   snake.forEach((p,i)=>{const head=i===0;ctx.fillStyle=head?'#7e9b52':'#586f3e';ctx.fillRect(p.x*size+1,p.y*size+1,size-2,size-2);ctx.fillStyle=head?'#a8bc70':'#71894b';ctx.fillRect(p.x*size+3,p.y*size+3,size-7,size-7);if(head){ctx.fillStyle='#f4e3a3';ctx.fillRect(p.x*size+(dir.x>=0?size-5:2),p.y*size+(dir.y>=0?size-5:3),3,3)}});
+ }
+ function step(){
+   if(!running||paused)return;
+   dir=nextDir; const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+   if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||snake.some(p=>p.x===head.x&&p.y===head.y)||walls.some(p=>p.x===head.x&&p.y===head.y)){gameOver();return}
+   snake.unshift(head);
+   if(head.x===food.x&&head.y===food.y){score+=food.type==='桃'?30:10;scoreEl.textContent=String(score).padStart(3,'0');placeFood();}else snake.pop();
+   draw();
+ }
+ function gameOver(){running=false;clearInterval(timer);if(score>high){high=score;localStorage.dragonHigh=high;highEl.textContent=String(high).padStart(3,'0')}overlayTitle.textContent='道は止まった';overlayText.innerHTML=`Final score: <b>${score}</b><br>Take another path through the garden.`;startBtn.textContent='TRY AGAIN';overlay.classList.remove('hidden')}
+ function start(){reset();running=true;paused=false;overlay.classList.add('hidden');clearInterval(timer);timer=setInterval(step,110)}
+ function setDir(d){const map={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[d];if(map&&!(map.x===-dir.x&&map.y===-dir.y))nextDir=map}
+ window.addEventListener('keydown',e=>{const k={ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right'}[e.key];if(k){e.preventDefault();setDir(k)}if(e.key===' '||e.key==='p'||e.key==='P')togglePause()});
+ document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();setDir(b.dataset.dir)}));
+ document.getElementById('pauseBtn').addEventListener('click',togglePause);
+ function togglePause(){if(!running)return;paused=!paused;if(paused){overlayTitle.textContent='静けさ';overlayText.innerHTML='The dragon rests beneath the moon.';startBtn.textContent='CONTINUE';overlay.classList.remove('hidden')}else overlay.classList.add('hidden')}
+ startBtn.addEventListener('click',()=>{if(paused){paused=false;overlay.classList.add('hidden')}else start()});
+ let startTouch=null;wrap.addEventListener('pointerdown',e=>{startTouch={x:e.clientX,y:e.clientY}});wrap.addEventListener('pointerup',e=>{if(!startTouch)return;const dx=e.clientX-startTouch.x,dy=e.clientY-startTouch.y;if(Math.max(Math.abs(dx),Math.abs(dy))>18)setDir(Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up'));startTouch=null});
+ window.addEventListener('resize',resize);reset();resize();
+})();
+</script>
+</body>
+</html>
